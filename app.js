@@ -1,8 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const helmet = require("helmet");
 const { errorHandler } = require("./middleware/errorHandler");
-const { firebaseAuth } = require("./middleware/firebaseAuth");
 const { morganImpl } = require("./configs/morgan");
 const { connectDatabase } = require("./configs/mongoose");
 const { getIPAddress } = require("./utils/getIPAddress");
@@ -12,19 +10,15 @@ dotenv.config();
 
 app
   .use(express.json())
-  // .use(helmet())
-  .use(firebaseAuth)
+  // .use(firebaseAuth)
   .use(morganImpl)
   .use("/", require("./routes"))
   .use(errorHandler);
 
 const PORT = Number(process.env.PORT) || 3000;
 
-// // heroku awake way
-// setInterval(() => {
-//   http.get("");
-// }, 300000); // every 5 minutes (300000)
-const text = `************************************************************
+const text = `
+************************************************************
                   Listening on port: ${PORT}
                   http://localhost:${PORT}
                   http://${getIPAddress()}:${PORT}
