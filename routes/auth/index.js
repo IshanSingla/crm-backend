@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const { Auth, firebaseAuth } = require("../../middleware/firebaseAuth");
 const userProfile = require("../../schema/user/userProfile");
-const admin = require("../../configs/firebase");
 
 router.get("/", (req, res) => {
   res.json({ message: "Welcome to the CRM" });
