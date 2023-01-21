@@ -98,12 +98,13 @@ async function firebaseBuissness(req, res, next) {
       .status(401)
       .json({ message: "Unauthorized", status: "User not found in firebase" });
   }
-  let mongodbUser = await userProfile.findOne({ uid: firebaseUser.uid }).populate("buissnessExpense");
+  let mongodbUser = await userProfile.findOne({ uid: firebaseUser.uid }).populate("buissnessExpense").exec();
   if (!(mongodbUser && mongodbUser._id)) {
     return res
       .status(401)
       .json({ message: "Unauthorized", status: "User not found in mongodb" });
   }
+  req.buissness=mongodbUser.buissnessExpense;
   req.user = {
     firebaseUser,
     mongodbUser,
