@@ -37,29 +37,23 @@ router.post("/create", async (req, res) => {
       buissnessExpensesTypes: [],
       buissnessCustomers: [],
       createdBy: mongodbUser._id,
-    },
-    async (err, buissness) => {
+    }, 
+  );
+  let data=await da.save();
+  await userProfile.findByIdAndUpdate(
+    mongodbUser._id,
+    { $push: { buissnessExpense: data._id } },
+    { new: true },
+    (err, doc) => {
       if (err) {
         res.status(500).json({ message: "Error creating buissness" });
       } else {
-        await userProfile.findByIdAndUpdate(
-          mongodbUser._id,
-          { $push: { buissnessExpense: buissness } },
-          { new: true },
-          (err, doc) => {
-            if (err) {
-              res.status(500).json({ message: "Error creating buissness" });
-            } else {
-              res
-                .status(200)
-                .json({ message: "Buissness created successfully" });
-            }
-          }
-        );
+        res
+          .status(200)
+          .json({ message: "Buissness created successfully" });
       }
     }
   );
-  await da.save();
 });
 
 module.exports = router;
