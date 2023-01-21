@@ -3,11 +3,10 @@ const buissnessExpense = require("../../schema/buissness/buissnessExpense");
 
 router.get("/", async (req, res) => {
   const { mongodbUser } = req.user;
-  res
-    .json({
-      message: "Buissness fetched",
-      buissness: mongodbUser.buissnessExpense,
-    });
+  res.json({
+    message: "Buissness fetched",
+    buissness: mongodbUser.buissnessExpense,
+  });
 });
 
 router.use(
@@ -30,18 +29,14 @@ router.use(
 
 router.post("/create", async (req, res) => {
   const { mongodbUser } = req.user;
-  const {
-    buissnessName,
-    buissnessType,
-    buissnessAddress,
-    buissnessPhoneNumber,
-  } = req.body;
+  const { buissnessName, buissnessGstNo } = req.body;
   let da = new buissnessExpense(
     {
       buissnessName,
-      buissnessType,
-      buissnessAddress,
-      buissnessPhoneNumber,
+      buissnessGstNo,
+      buissnessExpensesTypes: [],
+      buissnessCustomers: [],
+      createdBy: mongodbUser._id,
     },
     async (err, buissness) => {
       if (err) {
