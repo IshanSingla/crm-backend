@@ -23,12 +23,8 @@ const text = `
                   http://localhost:${PORT}
                   http://${getIPAddress()}:${PORT}
 ************************************************************`;
-connectDatabase()
-  .then(() => {
-    app.listen(PORT, async () => {
-      console.log(text);
-    });
-  })
-  .catch((err) => {
-    console.log("Error at Connecting Database ", err);
-  });
+connectDatabase();
+
+app.listen(PORT, async () => {
+  console.log(text);
+});
