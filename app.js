@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const { errorHandler } = require("./middleware/errorHandler");
-const { morganImpl } = require("./configs/morgan");
+// const { morganImpl } = require("./configs/morgan");
 const { connectDatabase } = require("./configs/mongoose");
 const { getIPAddress } = require("./utils/getIPAddress");
 
@@ -13,7 +13,7 @@ connectDatabase();
 app
   .use(express.json())
   // .use(firebaseAuth)
-  .use(morganImpl)
+  // .use(morganImpl)
   .use("/", require("./routes"))
   .use(errorHandler);
 
