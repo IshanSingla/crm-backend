@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema(
   {
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: mongoose.Types.ObjectId(),
-    },
     buissnessExpense: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "buissnessExpense",
@@ -12,7 +8,7 @@ const UserSchema = mongoose.Schema(
     },
     expenseName: {
       type: String,
-      require: true,
+      required: true,
     },
     expenseDescription: {
       type: String,
@@ -21,12 +17,12 @@ const UserSchema = mongoose.Schema(
     },
     expensetype: {
       type: String,
-      require: true,
+      required: true,
       default: "CR",
     },
     expenseOnType: {
       type: String,
-      require: true,
+      required: true,
       default: "None",
     },
     expenseOn: {
@@ -36,11 +32,11 @@ const UserSchema = mongoose.Schema(
     expenseAmount: {
       count: {
         type: Number,
-        require: true,
+        required: true,
       },
-      curency: {
+      currency: {
         type: String,
-        require: true,
+        required: true,
         default: "INR",
       },
     },

@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema(
   {
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "userTypes",
-      default: mongoose.Types.ObjectId(),
-    },
     typeName: {
       type: String,
       required: true,
@@ -15,7 +10,7 @@ const UserSchema = mongoose.Schema(
       {
         type: String,
         required: true,
-      },
+      }
     ],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
