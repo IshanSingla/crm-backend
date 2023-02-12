@@ -15,7 +15,7 @@ app
   .use("/", require("./routes"))
   .use(errorHandler);
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 4000;
 
 const text = `
 ************************************************************
