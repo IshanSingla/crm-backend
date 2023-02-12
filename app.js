@@ -8,6 +8,8 @@ const { getIPAddress } = require("./utils/getIPAddress");
 const app = express();
 dotenv.config();
 
+connectDatabase();
+
 app
   .use(express.json())
   // .use(firebaseAuth)
@@ -23,8 +25,7 @@ const text = `
                   http://localhost:${PORT}
                   http://${getIPAddress()}:${PORT}
 ************************************************************`;
-connectDatabase();
 
-app.listen(PORT, async () => {
+app.listen(PORT, () => {
   console.log(text);
 });
