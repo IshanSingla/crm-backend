@@ -21,92 +21,9 @@ async function firebaseAuth(req, res, next) {
       .status(401)
       .json({ message: "Unauthorized", status: "User not found in firebase" });
   }
-  let mongodbUser = await userProfile.findOne({ uid: firebaseUser.uid });
-  if (!(mongodbUser && mongodbUser._id)) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", status: "User not found in mongodb" });
-  }
-  req.user = {
-    firebaseUser,
-    mongodbUser,
-  };
-  next();
-}
-
-async function Auth(req, res, next) {
-  if (!req.headers || !req.headers["authorization"]) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", status: "Token not found" });
-  }
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[0];
-  if (!token || token === null) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", status: "Token not found" });
-  }
-  let firebaseUser = await admin.auth().verifyIdToken(token);
-  if (!(firebaseUser && firebaseUser.uid)) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", status: "User not found in firebase" });
-  }
-  let data = await userProfile.findOne({
-    $or: [
-      {
-        uid: firebaseUser.uid,
-      },
-      {
-        email: firebaseUser.email,
-      },
-      // {
-      //   phoneNumber: {
-      //     number: firebaseUser.phoneNumber,
-      //   },
-      // }
-    ],
+  let mongodbUser = await userProfile.findOne({
+    uid: firebaseUser.uid,
   });
-  if (data && data._id) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", status: "User Already Exist" });
-  }
-  data = req.user = {
-    firebaseUser,
-  };
-  next();
-}
-
-async function firebaseBuissness(req, res, next) {
-  if (!req.headers || !req.headers["authorization"]) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", status: "Token not found" });
-  }
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[0];
-  // console.log(authHeader);
-  if (!token || token === null) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", status: "Token not found" });
-  }
-  let firebaseUser = await admin.auth().verifyIdToken(token);
-  if (!(firebaseUser && firebaseUser.uid)) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", status: "User not found in firebase" });
-  }
-  let mongodbUser = await userProfile
-    .findOne({ uid: firebaseUser.uid })
-    .populate("buissnessExpense");
-  if (!(mongodbUser && mongodbUser._id)) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", status: "User not found in mongodb" });
-  }
   req.user = {
     firebaseUser,
     mongodbUser,
@@ -116,6 +33,4 @@ async function firebaseBuissness(req, res, next) {
 
 module.exports = {
   firebaseAuth,
-  Auth,
-  firebaseBuissness,
 };

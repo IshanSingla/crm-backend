@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const buissnessExpense = require("../../schema/buissness/buissness");
+const buissnessExpense = require("../../schema/buissness/index.js");
 const userProfile = require("../../schema/user/userProfile");
 
 router.get("/", async (req, res) => {
@@ -23,9 +23,6 @@ router.delete("/delete", async (req, res) => {
   });
   res.send({ message: "Buissness Deleted Sucessfully" });
 });
-
-router.use("/expenses", require("./expenses"));
-router.use("/inventory", require("./inventory"));
 
 router.post("/update", async (req, res) => {
   const { buissnessid } = req;
@@ -52,5 +49,8 @@ router.post("/update", async (req, res) => {
     }
   );
 });
+
+router.use("/expenses", require("./expenses"));
+router.use("/inventory", require("./inventory"));
 
 module.exports = router;

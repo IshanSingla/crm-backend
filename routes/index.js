@@ -1,12 +1,13 @@
+const { buissnesses } = require("../middleware/fetching");
+
 const router = require("express").Router();
-const { firebaseAuth,firebaseBuissness } = require("../middleware/firebaseAuth");
 
 router.get("/", (req, res) => {
   res.json({ message: "Welcome to the CRM" });
 });
-router.use("/user",firebaseAuth, require("./user"));
+router.use("/user", require("./user"));
 router.use("/auth", require("./auth"));
-router.use("/buissness",firebaseBuissness,require("./buissness"));
+router.use("/buissness", buissnesses, require("./buissness"));
 router.use("/admin", require("./admin"));
 
 router.use("*", (req, res) => {

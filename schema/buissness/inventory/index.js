@@ -31,12 +31,6 @@ const UserSchema = mongoose.Schema(
         required: true,
         default: 0,
     },
-    inventryTransaction: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "inventorytransaction",
-        },
-    ],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "userprofile",
