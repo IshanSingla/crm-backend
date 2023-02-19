@@ -6,18 +6,18 @@ const { errorHandler } = require("./middleware/errorHandler");
 const { connectDatabase } = require("./configs/mongoose");
 const { getIPAddress } = require("./utils/getIPAddress");
 
-
 const app = express();
 dotenv.config();
 
 connectDatabase();
 
-app.use(express.json()),
-  use(cors())
-    // .use(firebaseAuth)
-    // .use(morganImpl)
-    .use("/", require("./routes"))
-    .use(errorHandler);
+app
+  .use(express.json())
+  .use(cors())
+  // .use(firebaseAuth)
+  // .use(morganImpl)
+  .use("/", require("./routes"))
+  .use(errorHandler);
 
 const PORT = Number(process.env.PORT) || 4000;
 
