@@ -6,8 +6,18 @@ router.get("/", async (req, res) => {
 });
 
 router.delete("/delete", async (req, res) => {
+  const { mongodbUser } = req.user;
   const { id } = req.params;
+  const data= [];
   await buissnessExpense.findByIdAndDelete(id);
+  mongodbUser.buissnessExpense.map((buissness, index) => {
+    if (buissness._id != id) {
+      data.push(buissness._id);
+    }
+  });
+  await userProfile.findByIdAndUpdate(mongodbUser._id, {
+    buissnessExpense: data,
+  });
   res.send({ message: "Buissness Deleted Sucessfully" });
 });
 

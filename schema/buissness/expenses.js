@@ -27,7 +27,7 @@ const UserSchema = mongoose.Schema(
     },
     expenseOn: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "buissnessCustomers",
+      ref: "buissnesscustomer",
     },
     expenseAmount: {
       count: {
@@ -42,10 +42,10 @@ const UserSchema = mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "userProfile",
+      ref: "userprofile",
       required: true,
     },
   },
   { timestamps: true, strict: false }
 );
-module.exports = mongoose.model("expenses", UserSchema);
+module.exports = mongoose.model("expense", UserSchema);

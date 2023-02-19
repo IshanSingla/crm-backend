@@ -8,7 +8,7 @@ const UserSchema = mongoose.Schema(
     expenses: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "expenses",
+        ref: "expense",
       },
     ],
     buissnessName: {
@@ -32,7 +32,7 @@ const UserSchema = mongoose.Schema(
     buissnessCustomers: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "buissnessCustomers",
+        ref: "buissnesscustomer",
       },
     ],
     buissnessExpensesTypes: [
@@ -43,10 +43,10 @@ const UserSchema = mongoose.Schema(
 
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "userProfile",
+      ref: "userprofile",
       required: true,
     },
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("buissnessExpense", UserSchema);
+module.exports = mongoose.model("buissnessexpense", UserSchema);

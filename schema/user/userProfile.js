@@ -52,15 +52,15 @@ const UserSchema = mongoose.Schema(
     },
     userType: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "userTypes",
+      ref: "usertype",
     },
     buissnessExpense: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "buissnessExpense",
+        ref: "buissnessexpense",
       },
     ],
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("userProfile", UserSchema);
+module.exports = mongoose.model("userprofile", UserSchema);

@@ -14,10 +14,10 @@ const UserSchema = mongoose.Schema(
     ],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "userProfile",
+      ref: "userprofile",
       required: true,
     },
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("userTypes", UserSchema);
+module.exports = mongoose.model("usertype", UserSchema);

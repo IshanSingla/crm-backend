@@ -4,6 +4,16 @@ const userProfile = require("../../schema/user/userProfile");
 
 router.get("/", async (req, res) => {
   const { mongodbUser } = req.user;
+  buissnessExpense.find({ createdBy: mongodbUser._id }, (err, buissness) => {
+    if (err) {
+      res.status(500).json({ message: "Error fetching buissness" });
+    } else {
+      res.json({
+        message: "Buissness fetched",
+        buissness: buissness,
+      });
+    }
+  });
   res.json({
     message: "Buissness fetched",
     buissness: mongodbUser.buissnessExpense,
