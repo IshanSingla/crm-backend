@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+import cors from "cors";
 const { errorHandler } = require("./middleware/errorHandler");
 // const { morganImpl } = require("./configs/morgan");
 const { connectDatabase } = require("./configs/mongoose");
@@ -12,6 +13,7 @@ connectDatabase();
 
 app
   .use(express.json())
+  ,use(cors())
   // .use(firebaseAuth)
   // .use(morganImpl)
   .use("/", require("./routes"))
