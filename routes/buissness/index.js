@@ -15,25 +15,6 @@ router.get("/", async (req, res) => {
     }
   });
 });
-
-router.use(
-  "/buissness/:id",
-  (req, res, next) => {
-    const { id } = req.params;
-    const { mongodbUser } = req.user;
-    const buissness = mongodbUser.buissnessExpense.filter(
-      (buissness) => buissness._id == id
-    );
-    if (buissness.length > 0) {
-      req.buissness = buissness[0];
-      next();
-    } else {
-      res.status(404).json({ message: "Buissness not found" });
-    }
-  },
-  require("./buissness")
-);
-
 router.post("/create", async (req, res) => {
   const { mongodbUser } = req.user;
   const { buissnessName, buissnessGstNo } = req.body;
@@ -50,5 +31,24 @@ router.post("/create", async (req, res) => {
   });
   res.status(200).json({ message: "Buissness created successfully" });
 });
+
+router.use(
+  "/:id",
+  (req, res, next) => {
+    const { id } = req.params;
+    const { mongodbUser } = req.user;
+    const buissness = mongodbUser.buissnessExpense.filter(
+      (buissness) => buissness._id == id
+    );
+    if (buissness.length > 0) {
+      req.buissness = buissness[0];
+      req.id = id;
+      next();
+    } else {
+      res.status(404).json({ message: "Buissness not found" });
+    }
+  },
+  require("./buissness")
+);
 
 module.exports = router;

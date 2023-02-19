@@ -87,6 +87,7 @@ async function firebaseBuissness(req, res, next) {
   }
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[0];
+  // console.log(authHeader);
   if (!token || token === null) {
     return res
       .status(401)

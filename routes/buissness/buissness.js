@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const buissnessExpense = require("../../schema/buissness/buissnessExpense");
+const userProfile = require("../../schema/user/userProfile");
 
 router.get("/", async (req, res) => {
   res.json({ message: "Buissness fetched", buissness: req.buissness });
@@ -7,17 +8,22 @@ router.get("/", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
   const { mongodbUser } = req.user;
-  const { id } = req.params;
-  const data= [];
+  const { id } = req;
+  const data = [];
+  // console.log(req.params);
   await buissnessExpense.findByIdAndDelete(id);
   mongodbUser.buissnessExpense.map((buissness, index) => {
-    if (buissness._id != id) {
-      data.push(buissness._id);
+    if (String(buissness._id) !== id) {
+      data.push(String(buissness._id));
     }
   });
-  await userProfile.findByIdAndUpdate(mongodbUser._id, {
-    buissnessExpense: data,
-  });
+  // console.log(data);
+
+  console.log(
+    await userProfile.findByIdAndUpdate(mongodbUser._id, {
+      buissnessExpense: data,
+    })
+  );
   res.send({ message: "Buissness Deleted Sucessfully" });
 });
 
