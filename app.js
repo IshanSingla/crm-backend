@@ -15,7 +15,7 @@ app
   .use(express.json())
   .use(cors())
   // .use(firebaseAuth)
-  .use(morganImpl)
+  // .use(morganImpl)
   .use("/", require("./routes"))
   .use(errorHandler);
 
