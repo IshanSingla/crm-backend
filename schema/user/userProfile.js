@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema(
   {
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "userProfile",
-      default: mongoose.Types.ObjectId(),
-    },
     uid: {
       type: String,
     },
