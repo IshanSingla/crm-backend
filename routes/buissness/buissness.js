@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const buissnessExpense = require("../../schema/buissness/buissnessExpense");
+const buissnessExpense = require("../../schema/buissness/buissness");
 const userProfile = require("../../schema/user/userProfile");
 
 router.get("/", async (req, res) => {
@@ -30,73 +30,27 @@ router.delete("/delete", async (req, res) => {
 router.use("/expenses", require("./expenses"));
 
 router.post("/update", async (req, res) => {
-  const { id } = req.params;
+  const { id } = req;
   const {
     buissnessName,
     buissnessType,
-    buissnessAddress,
     buissnessPhoneNumber,
   } = req.body;
-  if (buissnessName) {
-    await buissnessExpense.findByIdAndUpdate(
-      id,
-      {
-        buissnessName,
-      },
-      { new: true },
-      (err, doc) => {
-        if (err) {
-        } else {
-          res.status(200).json({ message: "Buissness updated successfully" });
-        }
+  let data = {};
+  data.buissnessName = buissnessName ? buissnessName : req.buissness.buissnessName;
+  data.buissnessType = buissnessType ? buissnessType : req.buissness.buissnessType;
+  data.buissnessPhoneNumber = buissnessPhoneNumber ? buissnessPhoneNumber : req.buissness.buissnessPhoneNumber;
+  await buissnessExpense.findByIdAndUpdate(
+    id,
+    data,
+    { new: true },
+    (err, doc) => {
+      if (err) {
+      } else {
+        res.status(200).json({ message: "Buissness updated successfully" });
       }
-    );
-  }
-  if (buissnessType) {
-    await buissnessExpense.findByIdAndUpdate(
-      id,
-      {
-        buissnessType,
-      },
-      { new: true },
-      (err, doc) => {
-        if (err) {
-        } else {
-          res.status(200).json({ message: "Buissness updated successfully" });
-        }
-      }
-    );
-  }
-  if (buissnessAddress) {
-    await buissnessExpense.findByIdAndUpdate(
-      id,
-      {
-        buissnessAddress,
-      },
-      { new: true },
-      (err, doc) => {
-        if (err) {
-        } else {
-          res.status(200).json({ message: "Buissness updated successfully" });
-        }
-      }
-    );
-  }
-  if (buissnessPhoneNumber) {
-    await buissnessExpense.findByIdAndUpdate(
-      id,
-      {
-        buissnessAddress,
-      },
-      { new: true },
-      (err, doc) => {
-        if (err) {
-        } else {
-          res.status(200).json({ message: "Buissness updated successfully" });
-        }
-      }
-    );
-  }
+    }
+  );
 });
 
 module.exports = router;

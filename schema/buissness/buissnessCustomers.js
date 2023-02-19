@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema(
   {
-    buissnessExpense: {
+    buissness: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "buissnessexpense",
+      ref: "buissness",
       required: true,
     },
     customer: {

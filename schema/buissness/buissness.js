@@ -1,18 +1,9 @@
 const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema(
   {
-    expenses: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "expense",
-      },
-    ],
     buissnessName: {
       type: String,
       required: true,
-    },
-    buissnessGstNo: {
-      type: String,
     },
     buissnessAddress: {
       sNo: String,
@@ -25,18 +16,18 @@ const UserSchema = mongoose.Schema(
       country: String,
       directions: String,
     },
-    buissnessCustomers: [
+    expenses: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "buissnesscustomer",
+        ref: "expense",
       },
     ],
-    buissnessExpensesTypes: [
+    inventory: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "inventory",
       },
     ],
-
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "userprofile",
@@ -45,4 +36,4 @@ const UserSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("buissnessexpense", UserSchema);
+module.exports = mongoose.model("buissness", UserSchema);

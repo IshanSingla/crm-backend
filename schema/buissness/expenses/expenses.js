@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema(
   {
-    buissnessExpense: {
+    buissness: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "buissnessExpense",
+      ref: "buissness",
       required: true,
     },
     expenseName: {
@@ -33,10 +33,10 @@ const UserSchema = mongoose.Schema(
       count: {
         type: Number,
         required: true,
+        default: 0,
       },
       currency: {
         type: String,
-        required: true,
         default: "INR",
       },
     },

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const buissnessExpense = require("../../schema/buissness/buissnessExpense");
+const buissnessExpense = require("../../schema/buissness/buissness");
 
 router.get("/", (req, res) => {
   const { id } = req.params;

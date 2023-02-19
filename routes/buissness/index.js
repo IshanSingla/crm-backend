@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const buissnessExpense = require("../../schema/buissness/buissnessExpense");
+const buissnessExpense = require("../../schema/buissness/buissness");
 const userProfile = require("../../schema/user/userProfile");
 
 router.get("/", async (req, res) => {

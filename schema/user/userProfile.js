@@ -49,10 +49,10 @@ const UserSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "usertype",
     },
-    buissnessExpense: [
+    buissness: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "buissnessexpense",
+        ref: "buissness",
       },
     ],
   },
