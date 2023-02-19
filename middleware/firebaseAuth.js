@@ -9,7 +9,7 @@ async function firebaseAuth(req, res, next) {
       .json({ message: "Unauthorized", status: "Token not found" });
   }
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = authHeader && authHeader.split(" ")[0];
   if (!token || token === null) {
     return res
       .status(401)
@@ -41,7 +41,7 @@ async function Auth(req, res, next) {
       .json({ message: "Unauthorized", status: "Token not found" });
   }
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = authHeader && authHeader.split(" ")[0];
   if (!token || token === null) {
     return res
       .status(401)
@@ -86,7 +86,7 @@ async function firebaseBuissness(req, res, next) {
       .json({ message: "Unauthorized", status: "Token not found" });
   }
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = authHeader && authHeader.split(" ")[0];
   if (!token || token === null) {
     return res
       .status(401)
@@ -98,7 +98,9 @@ async function firebaseBuissness(req, res, next) {
       .status(401)
       .json({ message: "Unauthorized", status: "User not found in firebase" });
   }
-  let mongodbUser = await userProfile.findOne({ uid: firebaseUser.uid }).populate("buissnessExpense");
+  let mongodbUser = await userProfile
+    .findOne({ uid: firebaseUser.uid })
+    .populate("buissnessExpense");
   if (!(mongodbUser && mongodbUser._id)) {
     return res
       .status(401)
