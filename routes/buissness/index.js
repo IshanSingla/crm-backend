@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { verifyBuissness } = require("../../middleware/fetching");
 const buissnessExpense = require("../../schema/buissness/buissness");
 const userProfile = require("../../schema/user/userProfile");
 
@@ -21,8 +22,6 @@ router.post("/create", async (req, res) => {
   let da = new buissnessExpense({
     buissnessName,
     buissnessGstNo,
-    buissnessExpensesTypes: [],
-    buissnessCustomers: [],
     createdBy: mongodbUser._id,
   });
   let data = await da.save();
@@ -32,23 +31,6 @@ router.post("/create", async (req, res) => {
   res.status(200).json({ message: "Buissness created successfully" });
 });
 
-router.use(
-  "/:id",
-  (req, res, next) => {
-    const { id } = req.params;
-    const { mongodbUser } = req.user;
-    const buissness = mongodbUser.buissnessExpense.filter(
-      (buissness) => buissness._id == id
-    );
-    if (buissness.length > 0) {
-      req.buissness = buissness[0];
-      req.id = id;
-      next();
-    } else {
-      res.status(404).json({ message: "Buissness not found" });
-    }
-  },
-  require("./buissness")
-);
+router.use("/:buissnessid", verifyBuissness, require("./buissness"));
 
 module.exports = router;
