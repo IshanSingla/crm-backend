@@ -14,10 +14,6 @@ router.get("/", async (req, res) => {
       });
     }
   });
-  res.json({
-    message: "Buissness fetched",
-    buissness: mongodbUser.buissnessExpense,
-  });
 });
 
 router.use(
