@@ -31,29 +31,32 @@ router.get("/", (req, res) => {
     }
   );
 });
-router.post("/create", (req, res) => {
-  const { buissnessid } = req;
-  const { mongodbUser } = req.user;
-  const { name, description, cost, quantity } = req.body;
-  new inventory({
-    buissnessId: buissnessid,
-    inventoryName: name,
-    inventoryDescription: description,
-    inventoryCost: {
-      cost: cost,
-    },
-    inventoryQuantity: quantity,
-    createdBy: mongodbUser._id,
-  }).save((err, doc) => {
-    if (err) {
-      res.status(500).json({ message: "Error creating inventory" });
-    } else {
-      buissness.findByIdAndUpdate(buissnessid, {
-        $push: { inventory: doc._id },
-      });
-      res.status(200).json({ message: "Inventory created successfully" });
-    }
-  });
+router.post("/create", async (req, res) => {
+  try {
+    const { buissnessid } = req;
+    const { mongodbUser } = req.user;
+    const { name, description, cost, quantity } = req.body;
+    let data = new inventory({
+      buissness: buissnessid,
+      inventoryName: name,
+      inventoryDescription: description,
+      inventoryCost: {
+        cost: cost,
+      },
+      inventoryQuantity: quantity,
+      createdBy: mongodbUser._id,
+    });
+    console.log(req.body, data);
+
+    let doc = await data.save();
+    await buissness.findByIdAndUpdate(buissnessid, {
+      $push: { inventory: doc._id },
+    });
+    res.status(200).json({ message: "Inventory created successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error creating inventory" });
+  }
 });
 
 module.exports = router;
