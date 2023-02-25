@@ -33,14 +33,15 @@ router.get("/", (req, res) => {
 router.post("/create", (req, res) => {
   const { buissnessid } = req;
   const { mongodbUser } = req.user;
-  const { name, description, cost,type } = req.body;
+  const { name, description, amount, type, expenseOn } = req.body;
   new expense({
     buissnessId: buissnessid,
     expenseName: name,
     expenseDescription: description,
     expensetype: type,
+    expenseOnType: expenseOn,
     expenseAmount: {
-      amount: cost,
+      amount: amount,
     },
     createdBy: mongodbUser._id,
   }).save((err, doc) => {
