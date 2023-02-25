@@ -41,15 +41,14 @@ router.post("/create", async (req, res) => {
       inventoryName: name,
       inventoryDescription: description,
       inventoryCost: {
-        cost: cost,
+        count: cost,
       },
       inventoryQuantity: quantity,
       createdBy: mongodbUser._id,
     });
-    console.log(req.body, data);
 
     let doc = await data.save();
-    await buissness.findByIdAndUpdate(buissnessid, {
+    buissness.findByIdAndUpdate(buissnessid, {
       $push: { inventory: doc._id },
     });
     res.status(200).json({ message: "Inventory created successfully" });

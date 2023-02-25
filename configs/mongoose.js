@@ -12,6 +12,7 @@ const connectDatabase = async () => {
     );
     const connection = mongoose.connection;
     connection.on("connected", () => {
+      mongoose.set('useFindAndModify', false);
       console.log(`MongoDB is Connected with Host :${connection.host}`);
     });
     connection.on("disconnected", () => {

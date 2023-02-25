@@ -42,7 +42,7 @@ router.post("/create", (req, res) => {
     expensetype: type,
     expenseOnType: expenseOn,
     expenseAmount: {
-      amount: amount,
+      count: amount,
     },
     createdBy: mongodbUser._id,
   }).save((err, doc) => {
