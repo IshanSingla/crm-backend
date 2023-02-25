@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const buissness = require("../../../schema/buissness");
 const expense = require("../../../schema/buissness/expenses");
 
 router.get("/", (req, res) => {
@@ -35,7 +36,7 @@ router.post("/create", (req, res) => {
   const { mongodbUser } = req.user;
   const { name, description, amount, type, expenseOn } = req.body;
   new expense({
-    buissnessId: buissnessid,
+    buissness: buissnessid,
     expenseName: name,
     expenseDescription: description,
     expensetype: type,
