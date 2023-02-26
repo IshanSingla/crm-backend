@@ -16,18 +16,34 @@ const UserSchema = mongoose.Schema(
       country: String,
       directions: String,
     },
-    expenses: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "expense",
+    buissnessContact: {
+      email: {
+        type: String,
+        default: "None",
       },
-    ],
-    inventory: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "inventory",
+      phone: {
+        code: {
+          type: String,
+          default: "91",
+        },
+        number: {
+          type: String,
+          default: "",
+        },
       },
-    ],
+    },
+    buissnessGst: {
+      type: String,
+      default: "None",
+    },
+    buissnessPan: {
+      type: String,
+      default: "None",
+    },
+    buissnessType: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "buissnesstype",
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "userprofile",

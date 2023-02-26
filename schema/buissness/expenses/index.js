@@ -40,12 +40,17 @@ const UserSchema = mongoose.Schema(
         default: "INR",
       },
     },
+    expenseTime: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "userprofile",
       required: true,
     },
   },
-  { timestamps: true, strict: false }
+  { timestamps: true }
 );
 module.exports = mongoose.model("expense", UserSchema);

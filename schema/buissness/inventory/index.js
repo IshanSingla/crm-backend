@@ -16,9 +16,12 @@ const UserSchema = mongoose.Schema(
       default: "None",
     },
     inventoryCost: {
-      count: {
+      sellingPrice: {
         type: Number,
-        required: true,
+        default: 0,
+      },
+      buyingPrice: {
+        type: Number,
         default: 0,
       },
       currency: {
@@ -28,7 +31,6 @@ const UserSchema = mongoose.Schema(
     },
     inventoryQuantity: {
         type: Number,
-        required: true,
         default: 0,
     },
     createdBy: {
@@ -37,6 +39,6 @@ const UserSchema = mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true, strict: false }
+  { timestamps: true }
 );
 module.exports = mongoose.model("inventory", UserSchema);

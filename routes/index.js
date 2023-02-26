@@ -1,5 +1,3 @@
-const { buissnesses } = require("../middleware/fetching");
-
 const router = require("express").Router();
 
 router.get("/", (req, res) => {
@@ -7,7 +5,7 @@ router.get("/", (req, res) => {
 });
 router.use("/user", require("./user"));
 router.use("/auth", require("./auth"));
-router.use("/buissness", buissnesses, require("./buissness"));
+router.use("/buissness", require("./buissness"));
 router.use("/admin", require("./admin"));
 
 router.use("*", (req, res) => {

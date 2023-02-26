@@ -3,7 +3,7 @@ const buissness = require("../../../schema/buissness");
 const expense = require("../../../schema/buissness/expenses");
 
 router.get("/", (req, res) => {
-  const { buissnessid, buissness } = req;
+  // const { buissnessid, buissness } = req;
   let { from, to } = req.query;
   from = from ? from : "0";
   to = to ? to : "20";
@@ -11,22 +11,28 @@ router.get("/", (req, res) => {
     res.status(400).json({ message: "Invalid query" });
   }
   expense.find(
-    { buissness: buissnessid },
+    { buissness: req.buissnessid },
     {},
     { skip: parseInt(from), limit: parseInt(to) },
-    (err, doc) => {
+    async (err, doc) => {
       if (err) {
         res.status(500).json({ message: "Error fetching inventory" });
       } else {
-        res.status(200).json({
-          message: "Inventory fetched",
-          inventory: doc,
-          count: doc.length,
-          totalCount: buissness.expenses.length,
-          totalPage: Math.ceil(
-            buissness.expenses.length / (parseInt(to) - parseInt(from))
-          ),
-        });
+        expense
+          .find({ buissness: req.buissnessid })
+          .countDocuments((err, count) => {
+            if (err) {
+              res.status(500).json({ message: "Error fetching inventory" });
+            } else {
+              res.status(200).json({
+                message: "Inventory fetched",
+                inventory: doc,
+                count: doc.length,
+                totalCount: count,
+                totalPage: Math.ceil(count / (parseInt(to) - parseInt(from))),
+              });
+            }
+          });
       }
     }
   );
@@ -49,14 +55,11 @@ router.post("/create", (req, res) => {
     if (err) {
       res.status(500).json({ message: "Error creating inventory" });
     } else {
-      buissness.findByIdAndUpdate(buissnessid, {
-        $push: { expenses: doc._id },
-      });
       res.status(200).json({ message: "Expense created successfully" });
     }
   });
 });
 
-router.use("/:expid", require("./expense"));
+router.use("/:expid", require("./oneexpense"));
 
 module.exports = router;
