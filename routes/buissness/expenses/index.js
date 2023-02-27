@@ -14,7 +14,8 @@ router.get("/", (req, res) => {
   expense.find(
     { buissness: req.buissnessid },
     {},
-    { skip: parseInt(from), limit: parseInt(to) },
+
+    { sort: { createdAt: -1 }, skip: parseInt(from), limit: parseInt(to) },
     async (err, doc) => {
       if (err) {
         res.status(500).json({ message: "Error fetching inventory" });
