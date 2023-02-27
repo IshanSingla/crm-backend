@@ -1,12 +1,11 @@
-const router = require("express").Router();
+const { firebaseAuth } = require("../middleware/firebaseAuth");
 
+const router = require("express").Router();
 router.get("/", (req, res) => {
-  res.json({ message: "Welcome to the CRM" });
+  res.status(200).json({ message: "Welcome to the CRM" });
 });
-router.use("/user", require("./user"));
-router.use("/auth", require("./auth"));
-router.use("/buissness", require("./buissness"));
-router.use("/admin", require("./admin"));
+
+router.use("/api/v1", firebaseAuth, require("./v1"));
 
 router.use("*", (req, res) => {
   res.status(404).json({ message: "404 Error", route: req.originalUrl });

@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const inventory = require("../../../schema/buissness/inventory");
-const buissness = require("../../../schema/buissness");
-const { verifyInventry } = require("../../../middleware/fetching");
+const inventory = require("../../../../schema/buissness/inventory");
+const buissness = require("../../../../schema/buissness");
+const { verifyInventry } = require("../../../../middleware/fetching");
 
 router.get("/", (req, res) => {
   // const { buissnessid, buissness } = req;

@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const { firebaseAuth } = require("../../middleware/firebaseAuth");
-const userProfile = require("../../schema/user/userProfile");
+const { firebaseAuth } = require("../../../middleware/firebaseAuth");
+const userProfile = require("../../../schema/user/userProfile");
 
 router.post("/create", async (req, res) => {
   const { email, name, userGender, phoneNumber } = req.body;

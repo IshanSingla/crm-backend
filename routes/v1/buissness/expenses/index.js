@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { verifyExpense } = require("../../../middleware/fetching");
-const buissness = require("../../../schema/buissness");
-const expense = require("../../../schema/buissness/expenses");
+const { verifyExpense } = require("../../../../middleware/fetching");
+const buissness = require("../../../../schema/buissness");
+const expense = require("../../../../schema/buissness/expenses");
 
 router.get("/", (req, res) => {
   // const { buissnessid, buissness } = req;

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const userProfile = require("../../schema/user/userProfile");
+const userProfile = require("../../../schema/user/userProfile");
 
 router.get("/", (req, res) => {
   res.json({ message: "Welcome to the CRM" });

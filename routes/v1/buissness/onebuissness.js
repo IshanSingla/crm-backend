@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const buissnessExpense = require("../../schema/buissness/index.js");
-const userProfile = require("../../schema/user/userProfile");
+const buissnessExpense = require("../../../schema/buissness/index.js");
+const userProfile = require("../../../schema/user/userProfile");
 
 router.get("/", async (req, res) => {
   const { buissnessid } = req;

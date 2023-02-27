@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { verifyBuissness } = require("../../middleware/fetching");
-const buissnessExpense = require("../../schema/buissness/index.js");
-const userProfile = require("../../schema/user/userProfile");
+const { verifyBuissness } = require("../../../middleware/fetching");
+const buissnessExpense = require("../../../schema/buissness/index.js");
+const userProfile = require("../../../schema/user/userProfile");
 
 router.get("/", async (req, res) => {
   const { mongodbUser } = req.user;
