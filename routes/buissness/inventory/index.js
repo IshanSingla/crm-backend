@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const inventory = require("../../../schema/buissness/inventory");
 const buissness = require("../../../schema/buissness");
+const { verifyInventry } = require("../../../middleware/fetching");
 
 router.get("/", (req, res) => {
   // const { buissnessid, buissness } = req;
@@ -67,6 +68,6 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.use("/:invid", require("./oneinventory"));
+router.use("/:invid", verifyInventry, require("./oneinventory"));
 
 module.exports = router;

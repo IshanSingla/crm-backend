@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { verifyExpense } = require("../../../middleware/fetching");
 const buissness = require("../../../schema/buissness");
 const expense = require("../../../schema/buissness/expenses");
 
@@ -60,6 +61,6 @@ router.post("/create", (req, res) => {
   });
 });
 
-router.use("/:expid", require("./oneexpense"));
+router.use("/:expid", verifyExpense, require("./oneexpense"));
 
 module.exports = router;

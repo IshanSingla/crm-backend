@@ -28,7 +28,7 @@ const UserSchema = mongoose.Schema(
         },
         number: {
           type: String,
-          default: "",
+          default: "None",
         },
       },
     },

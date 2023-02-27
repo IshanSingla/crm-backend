@@ -1,3 +1,6 @@
+const expenses = require("../schema/buissness/expenses");
+const inventory = require("../schema/buissness/inventory");
+
 const verifyBuissness = (req, res, next) => {
   const { buissnessid } = req.params;
   const { mongodbUser } = req.user;
@@ -13,7 +16,46 @@ const verifyBuissness = (req, res, next) => {
   }
 };
 
+const verifyInventry = (req, res, next) => {
+  req.invid = req.params.invid;
+  inventory.findOne(
+    { buissness: req.buissnessid, _id: req.invid },
+    (err, doc) => {
+      if (err) {
+        res.status(500).json({ message: "Error fetching inventory" });
+      } else {
+        if (doc) {
+          req.inventory = doc;
+          next();
+        } else {
+          res.status(404).json({ message: "Inventory not found" });
+        }
+      }
+    }
+  );
+};
+
+const verifyExpense = (req, res, next) => {
+  req.expid = req.params.expid;
+  expenses.findOne(
+    { buissness: req.buissnessid, _id: req.expid },
+    (err, doc) => {
+      if (err) {
+        res.status(500).json({ message: "Error fetching expense" });
+      } else {
+        if (doc) {
+          req.expense = doc;
+          next();
+        } else {
+          res.status(404).json({ message: "Expense not found" });
+        }
+      }
+    }
+  );
+};
+
 module.exports = {
   verifyBuissness,
+  verifyInventry,
+  verifyExpense,
 };
-// const verifyExpces=
