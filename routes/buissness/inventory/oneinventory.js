@@ -35,7 +35,7 @@ router.delete("/delete", (req, res) => {
   });
 });
 
-router.pose("/addquantity", (req, res) => {
+router.post("/addquantity", (req, res) => {
   const { inventory } = req;
 });
 
