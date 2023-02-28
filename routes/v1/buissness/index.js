@@ -5,12 +5,11 @@ const userProfile = require("../../../schema/user/userProfile");
 
 router.get("/", async (req, res) => {
   const { mongodbUser } = req.user;
-  buissnessExpense.find({ createdBy: mongodbUser._id }, (err, buissness) => {
-    if (err) {
-      res
-        .status(404)
-        .json({ message: "Error fetching buissness", err: err.message });
-    } else {
+  userProfile
+    .findById(mongodbUser._id)
+    .populate("buissness")
+    .then((user) => {
+      let buissness = user.buissness;
       if (buissness && buissness.length >= 0) {
         res.json({
           message: "Buissness fetched",
@@ -19,8 +18,12 @@ router.get("/", async (req, res) => {
       } else {
         res.status(404).json({ message: "Error buissness empty" });
       }
-    }
-  });
+    })
+    .catch((err) => {
+      res
+        .status(404)
+        .json({ message: "Error fetching buissness", err: err.message });
+    });
 });
 
 router.post("/create", async (req, res) => {

@@ -14,15 +14,13 @@ router.get("/", async (req, res) => {
 });
 
 router.delete("/delete", async (req, res) => {
-
-  // need to check this api is working or not
   const { mongodbUser } = req.user;
   const { buissnessid } = req;
   const data = [];
   await buissnessExpense.findByIdAndDelete(buissnessid);
-  mongodbUser.buissnessExpense.map((buissness, index) => {
-    if (String(buissness._id) !== id) {
-      data.push(String(buissness._id));
+  mongodbUser.buissness.map((buissness, index) => {
+    if (String(buissness) !== buissnessid) {
+      data.push(String(buissness));
     }
   });
   await userProfile.findByIdAndUpdate(mongodbUser._id, {
