@@ -17,7 +17,6 @@ require("./configs/mongoose")();
 app
   .use(express.json())
   .use(cors())
-  // .use(firebaseAuth)
   // .use(morganImpl)
   .use("/", require("./routes"))
   .use(errorHandler);

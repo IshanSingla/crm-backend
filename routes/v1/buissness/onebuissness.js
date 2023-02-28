@@ -1,55 +1,11 @@
 const router = require("express").Router();
-const buissnessExpense = require("../../../schema/buissness/index.js");
-const userProfile = require("../../../schema/user/userProfile");
+const { BuissnessData } = require("../../../controllers/getdata");
+const { BuissnessDelete } = require("../../../controllers/delete");
+const { BuissnessUpdate } = require("../../../controllers/update");
 
-router.get("/", async (req, res) => {
-  const { buissnessid } = req;
-  buissnessExpense.findById(buissnessid, (err, doc) => {
-    if (err) {
-      res.status(404).json({ message: "Buissness not found" });
-    } else {
-      res.status(200).json({ message: "Buissness fetched", buissness: doc });
-    }
-  });
-});
-
-router.delete("/delete", async (req, res) => {
-  const { mongodbUser } = req.user;
-  const { buissnessid } = req;
-  const data = [];
-  await buissnessExpense.findByIdAndDelete(buissnessid);
-  mongodbUser.buissness.map((buissness, index) => {
-    if (String(buissness) !== buissnessid) {
-      data.push(String(buissness));
-    }
-  });
-  await userProfile.findByIdAndUpdate(mongodbUser._id, {
-    buissnessExpense: data,
-  });
-  res.send({ message: "Buissness Deleted Sucessfully" });
-});
-
-router.post("/update", async (req, res) => {
-  const { buissnessid } = req;
-  const { buissnessName, buissnessType, buissnessPhoneNumber } = req.body;
-  let data = {};
-  data.buissnessName = buissnessName;
-  data.buissnessType = buissnessType;
-  data.buissnessPhoneNumber = buissnessPhoneNumber;
-
-  await buissnessExpense.findByIdAndUpdate(
-    buissnessid,
-    data,
-    { new: true },
-    (err, doc) => {
-      if (err) {
-      } else {
-        res.status(200).json({ message: "Buissness updated successfully" });
-      }
-    }
-  );
-});
-
+router.get("/", BuissnessData);
+router.delete("/delete", BuissnessDelete);
+router.post("/update", BuissnessUpdate);
 router.use("/expenses", require("./expenses"));
 router.use("/inventory", require("./inventory"));
 
