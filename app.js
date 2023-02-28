@@ -1,14 +1,18 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const { errorHandler } = require("./middleware/errorHandler");
-// const { morganImpl } = require("./configs/morgan");
-const { connectDatabase } = require("./configs/mongoose");
-const { getIPAddress } = require("./utils/getIPAddress");
-const app = express();
-dotenv.config();
+// Entry point of the application
+require("dotenv").config();
 
-connectDatabase();
+// Importing the required modules
+const express = require("express");
+const cors = require("cors");
+const app = express();
+
+// Importing the required files
+// const { morganImpl } = require("./configs/morgan");
+const { errorHandler } = require("./middleware/errorHandler");
+const { getIPAddress } = require("./utils/getIPAddress");
+
+// Connecting to the database
+require("./configs/mongoose")();
 
 app
   .use(express.json())
