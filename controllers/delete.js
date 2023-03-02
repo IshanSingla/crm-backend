@@ -3,6 +3,7 @@ const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
 
 const userProfile = require("../schema/user/userProfile");
+const async = require("async");
 
 const BuissnessDelete = async (req, res) => {
   const { mongodbUser } = req.user;
@@ -24,9 +25,23 @@ const BuissnessDelete = async (req, res) => {
             callback(null, 2);
           });
       },
+      task3: function (callback) {
+        expense.deleteMany({ buissness: buissnessid }).then((doc) => {
+          callback(null, 3);
+        });
+      },
+      task4: function (callback) {
+        inventory.deleteMany({ buissness: buissnessid }).then((doc) => {
+          callback(null, 4);
+        });
+      },
     },
     function (err, results) {
-      res.send({ message: "Buissness Deleted Sucessfully" });
+      if (err) {
+        res.status(500).json({ message: "Error deleting buissness" });
+      } else {
+        res.send({ message: "Buissness Deleted Sucessfully" });
+      }
     }
   );
   // await buissnessExpense.findByIdAndDelete(buissnessid);
@@ -60,7 +75,7 @@ const InventoryDelete = (req, res) => {
 };
 
 module.exports = {
-    ExpenseDelete,
-    InventoryDelete,
-    BuissnessDelete,
+  ExpenseDelete,
+  InventoryDelete,
+  BuissnessDelete,
 };

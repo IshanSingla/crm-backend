@@ -67,7 +67,7 @@ const BuissnessCreate = async (req, res) => {
       $push: { buissness: data._id },
     })
     .then((doc) => {
-      res.json({ message: "Buissness created", buissness: data });
+      res.json({ message: "Buissness created", data: data });
     });
 };
 

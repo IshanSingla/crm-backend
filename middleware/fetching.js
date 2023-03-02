@@ -2,7 +2,13 @@ const expenses = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
 
 const verifyBuissness = (req, res, next) => {
-  const { buissnessid } = req.params;
+  if (!req.headers || !req.headers["buissnessid"]) {
+    return res.status(404).json({ message: "Buissness Not Defined" });
+  }
+  const buissnessid = req.headers["buissnessid"];
+  if (!buissnessid) {
+    return res.status(404).json({ message: "Buissness Not Defined" });
+  }
   const { mongodbUser } = req.user;
   const buissness = mongodbUser.buissness.filter(
     (buissness) => buissness == buissnessid

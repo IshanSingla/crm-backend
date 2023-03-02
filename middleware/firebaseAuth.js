@@ -1,6 +1,5 @@
 const admin = require("../configs/firebase");
 const userProfile = require("../schema/user/userProfile");
-const filters = ["/auth/*", "/user/*", "/admin/*"];
 
 async function firebaseAuth(req, res, next) {
   if (!req.headers || !req.headers["authorization"]) {
