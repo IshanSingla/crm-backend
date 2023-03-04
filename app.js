@@ -12,7 +12,8 @@ const { errorHandler } = require("./middleware/errorHandler");
 const { getIPAddress } = require("./utils/getIPAddress");
 
 // Connecting to the database
-require("./configs/mongoose")();
+require("./configs/mongoose");
+require("./configs/redis");
 
 app
   .use(express.json())

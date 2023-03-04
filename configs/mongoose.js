@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-module.exports = async () => {
+const mongodb = async () => {
   try {
     const con = mongoose.connect(process.env.MONGO_URI, {
       dbName: "main",
@@ -10,7 +10,7 @@ module.exports = async () => {
     const connection = mongoose.connection;
     connection.on("connected", () => {
       mongoose.set("useFindAndModify", false);
-      console.log(`MongoDB is Connected with Host :${connection.host}`);
+      console.log(`MongoDB is Connected with Host ${connection.host}`);
     });
     connection.on("disconnected", () => {
       console.log(`MongoDB is disconnected from Host :${connection.host}`);
@@ -19,3 +19,5 @@ module.exports = async () => {
     console.log("Error connecting to mongo.", error);
   }
 };
+mongodb();
+module.exports = mongodb;
