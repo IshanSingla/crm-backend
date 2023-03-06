@@ -2,7 +2,6 @@ const expense = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
 const userProfile = require("../schema/user/userProfile");
-const inventoryTransaction = require("../schema/buissness/inventory/inventoryTransaction");
 
 const ExpenseCreate = async (req, res) => {
   const { buissnessid } = req;
