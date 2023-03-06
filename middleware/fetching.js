@@ -2,7 +2,7 @@ const expense = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
 const userProfile = require("../schema/user/userProfile");
-const inventoryTransaction = require("../schema/buissness/inventory/inventoryTransaction");
+const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
 
 const verifyBuissness = (req, res, next) => {
   const { mongodbUser } = req.user;

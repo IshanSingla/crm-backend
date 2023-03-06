@@ -2,7 +2,7 @@ const expenses = require("../schema/buissness/expenses");
 const inventorys = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
 const userProfile = require("../schema/user/userProfile");
-const inventoryTransaction = require("../schema/buissness/inventory/inventoryTransaction");
+const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
 
 const UserUpdate = async (req, res) => {
   const { mongodbUser } = req.user;
