@@ -1,12 +1,13 @@
 const expense = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
-
 const userProfile = require("../schema/user/userProfile");
+const inventoryTransaction = require("../schema/buissness/inventory/inventoryTransaction");
+
 const async = require("async");
 
 const BuissnessDelete = async (req, res) => {
-  const { mongodbUser } = req.user;
+  console.log("BuissnessDelete");
   const { buissnessid } = req;
   // under testing
   async.parallel(
@@ -17,22 +18,13 @@ const BuissnessDelete = async (req, res) => {
         });
       },
       task2: function (callback) {
-        userProfile
-          .findByIdAndUpdate(mongodbUser._id, {
-            $pull: { buissness: buissnessid },
-          })
-          .then((doc) => {
-            callback(null, 2);
-          });
-      },
-      task3: function (callback) {
         expense.deleteMany({ buissness: buissnessid }).then((doc) => {
-          callback(null, 3);
+          callback(null, 2);
         });
       },
-      task4: function (callback) {
+      task3: function (callback) {
         inventory.deleteMany({ buissness: buissnessid }).then((doc) => {
-          callback(null, 4);
+          callback(null, 3);
         });
       },
     },
@@ -44,11 +36,7 @@ const BuissnessDelete = async (req, res) => {
       }
     }
   );
-  // await buissnessExpense.findByIdAndDelete(buissnessid);
-  // await userProfile.findByIdAndUpdate(mongodbUser._id, {
-  //   $pull: { buissness: buissnessid },
-  // });
-  // res.send({ message: "Buissness Deleted Sucessfully" });
+
 };
 
 const ExpenseDelete = (req, res) => {

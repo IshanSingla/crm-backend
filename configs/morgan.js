@@ -8,6 +8,4 @@ const logFormat =
 var accessLogStream = fs.createWriteStream("access.log", { flags: "a" });
 const morganImpl = morgan(logFormat);
 
-module.exports = {
-  morganImpl,
-};
+module.exports = morganImpl;

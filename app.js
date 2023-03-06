@@ -7,7 +7,6 @@ const cors = require("cors");
 const app = express();
 
 // Importing the required files
-// const { morganImpl } = require("./configs/morgan");
 const { errorHandler } = require("./middleware/errorHandler");
 const { getIPAddress } = require("./utils/getIPAddress");
 
@@ -17,7 +16,7 @@ require("./configs/mongoose")();
 app
   .use(express.json())
   .use(cors())
-  // .use(morganImpl)
+  // .use(require("./configs/morgan"))
   .use("/", require("./routes"))
   .use(errorHandler);
 

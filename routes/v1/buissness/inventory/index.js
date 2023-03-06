@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const { verifyInventry } = require("../../../../middleware/fetching");
 const { InventoryCreate } = require("../../../../controllers/create");
-const { InventoryData } = require("../../../../controllers/getdata");
+const { AllInventoryData } = require("../../../../controllers/getdata");
 
-router.get("/", InventoryData);
+router.get("/", AllInventoryData);
 
 router.post("/create", InventoryCreate);
 

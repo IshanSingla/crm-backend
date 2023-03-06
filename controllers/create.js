@@ -1,8 +1,8 @@
 const expense = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
-
 const userProfile = require("../schema/user/userProfile");
+const inventoryTransaction = require("../schema/buissness/inventory/inventoryTransaction");
 
 const ExpenseCreate = async (req, res) => {
   const { buissnessid } = req;
@@ -57,17 +57,21 @@ const InventoryCreate = async (req, res) => {
 const BuissnessCreate = async (req, res) => {
   const { mongodbUser } = req.user;
   const { buissnessName } = req.body;
-  let da = new buissness({
+  let data = new buissness({
     buissnessName,
     createdBy: mongodbUser._id,
+    users: [mongodbUser._id],
+    roles: [mongodbUser.userType],
   });
-  let data = await da.save();
-  userProfile
-    .findByIdAndUpdate(mongodbUser._id, {
-      $push: { buissness: data._id },
-    })
+  data
+    .save()
     .then((doc) => {
-      res.json({ message: "Buissness created", data: data });
+      res.json({ message: "Buissness created", data: doc });
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .json({ message: "Error creating buissness", err: err.message });
     });
 };
 

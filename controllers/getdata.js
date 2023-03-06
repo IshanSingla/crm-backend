@@ -1,10 +1,39 @@
 const expense = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
-
 const userProfile = require("../schema/user/userProfile");
+const inventoryTransaction = require("../schema/buissness/inventory/inventoryTransaction");
 
-const ExpenseData = async (req, res) => {
+const AllBuissnessData = async (req, res) => {
+  const { mongodbUser } = req.user;
+  buissness
+    .find({ users: { $elemMatch: { $eq: mongodbUser._id } } })
+    .then((doc) => {
+      if (doc) {
+        res.status(200).json({ message: "Buissness fetched", buissness: doc });
+      } else {
+        res.status(404).json({ message: "Buissness not found" });
+      }
+    })
+    .catch((err) => {
+      res
+        .status(404)
+        .json({ message: "Error fetching buissness", err: err.message });
+    });
+};
+
+const BuissnessData = async (req, res) => {
+  const { buissnessid } = req;
+  buissness.findById(buissnessid, (err, doc) => {
+    if (err) {
+      res.status(404).json({ message: "Buissness not found" });
+    } else {
+      res.status(200).json({ message: "Buissness fetched", buissness: doc });
+    }
+  });
+};
+
+const AllExpenseData = async (req, res) => {
   // need to optamize
   let { from, to } = req.query;
   from = from ? from : "0";
@@ -40,7 +69,11 @@ const ExpenseData = async (req, res) => {
   );
 };
 
-const InventoryData = async (req, res) => {
+const ExpenseData = async (req, res) => {
+  res.status(200).json({ message: "Expense fetched", expense: req.expense });
+};
+
+const AllInventoryData = async (req, res) => {
   // need parallel pronessing here
   let { from, to } = req.query;
   from = from ? from : "0";
@@ -77,42 +110,16 @@ const InventoryData = async (req, res) => {
   );
 };
 
-const AllBuissnessData = async (req, res) => {
-  const { mongodbUser } = req.user;
-  userProfile
-    .findById(mongodbUser._id)
-    .populate("buissness")
-    .then((user) => {
-      let buissness = user.buissness;
-      if (buissness && buissness.length >= 0) {
-        res.json({
-          message: "Buissness fetched",
-          buissness: buissness,
-        });
-      } else {
-        res.status(404).json({ message: "Error buissness empty" });
-      }
-    })
-    .catch((err) => {
-      res
-        .status(404)
-        .json({ message: "Error fetching buissness", err: err.message });
-    });
-};
-
-const BuissnessData = async (req, res) => {
-  const { buissnessid } = req;
-  buissness.findById(buissnessid, (err, doc) => {
-    if (err) {
-      res.status(404).json({ message: "Buissness not found" });
-    } else {
-      res.status(200).json({ message: "Buissness fetched", buissness: doc });
-    }
-  });
+const InventoryData = async (req, res) => {
+  res
+    .status(200)
+    .json({ message: "Inventory fetched", inventory: req.inventory });
 };
 
 module.exports = {
+  AllExpenseData,
   ExpenseData,
+  AllInventoryData,
   InventoryData,
   AllBuissnessData,
   BuissnessData,

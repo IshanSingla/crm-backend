@@ -1,7 +1,11 @@
-const expenses = require("../schema/buissness/expenses");
+const expense = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
+const buissness = require("../schema/buissness");
+const userProfile = require("../schema/user/userProfile");
+const inventoryTransaction = require("../schema/buissness/inventory/inventoryTransaction");
 
 const verifyBuissness = (req, res, next) => {
+  const { mongodbUser } = req.user;
   if (!req.headers || !req.headers["buissnessid"]) {
     return res.status(404).json({ message: "Buissness Not Defined" });
   }
@@ -9,17 +13,26 @@ const verifyBuissness = (req, res, next) => {
   if (!buissnessid) {
     return res.status(404).json({ message: "Buissness Not Defined" });
   }
-  const { mongodbUser } = req.user;
-  const buissness = mongodbUser.buissness.filter(
-    (buissness) => buissness == buissnessid
-  );
-  if (buissness.length > 0) {
-    req.buissness = buissness[0];
-    req.buissnessid = buissnessid;
-    next();
-  } else {
-    res.status(404).json({ message: "Buissness not found" });
-  }
+  buissness
+    .find({
+      _id: buissnessid,
+      users: { $elemMatch: { $eq: mongodbUser._id } },
+    })
+    .then((doc) => {
+      if (doc) {
+        req.buissness = doc;
+        req.buissnessid = buissnessid;
+        next();
+      } else {
+        res.status(404).json({ message: "Buissness not found" });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(404)
+        .json({ message: "Error fetching buissness", err: err.message });
+    });
 };
 
 const verifyInventry = (req, res, next) => {
@@ -43,7 +56,7 @@ const verifyInventry = (req, res, next) => {
 
 const verifyExpense = (req, res, next) => {
   req.expid = req.params.expid;
-  expenses.findOne(
+  expense.findOne(
     { buissness: req.buissnessid, _id: req.expid },
     (err, doc) => {
       if (err) {

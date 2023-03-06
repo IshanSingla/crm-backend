@@ -1,17 +1,31 @@
 const mongoose = require("mongoose");
-const UserSchema = mongoose.Schema(
+const inventoryTransactionSchema = mongoose.Schema(
   {
-    buissness: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "buissness",
-      required: true,
-    },
-    inventory: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "inventory",
-      required: true,
-    },
+    inventory: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "inventory",
+        required: true,
+      },
+    ],
+    inventoryTransactionAmmount: [
+      {
+        type: Number,
+        required: true,
+      },
+    ],
+    inventoryTransactionQuantity: [
+      {
+        type: Number,
+        required: true,
+      },
+    ],
 
+    inventoryTransactionTime: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+    },
     inventoryTransactionDetails: {
       type: String,
       default: "INVENTORY", // INVENTORY, CUSTOMER, SUPPLIER
@@ -21,33 +35,10 @@ const UserSchema = mongoose.Schema(
       required: true,
       default: "SALE", // SALE PURCHASE RETURN
     },
-    inventoryTransactionAmmount: {
-      count: {
-        type: Number,
-        default: 0,
-      },
-      currency: {
-        type: String,
-        default: "INR",
-      },
-      type: {
-        type: String,
-        default: "CASH", // CASH, CARD, UPI, PAYTM, BHIM, NETBANKING, CHEQUE, CREDIT, DEBIT
-      },
-      transictionId: {
-        type: String,
-        default: "None",
-      },
-    },
-    inventoryTransactionQuantity: {
-      type: Number,
+    buissness: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "buissness",
       required: true,
-    },
-
-    inventoryTransactionTime: {
-      type: Date,
-      required: true,
-      default: Date.now(),
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
@@ -57,4 +48,7 @@ const UserSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("inventorytransaction", UserSchema);
+module.exports = mongoose.model(
+  "inventorytransaction",
+  inventoryTransactionSchema
+);

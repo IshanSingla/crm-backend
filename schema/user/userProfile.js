@@ -49,12 +49,6 @@ const UserSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "usertype",
     },
-    buissness: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "buissness",
-      },
-    ],
   },
   { timestamps: true }
 );

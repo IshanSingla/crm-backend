@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const UserSchema = mongoose.Schema(
+const buissnessSchema = mongoose.Schema(
   {
     buissnessName: {
       type: String,
@@ -44,6 +44,24 @@ const UserSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "buissnesstype",
     },
+    buissnessLogo: {
+      type: String,
+      default: "None",
+    },
+    users: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "userprofile",
+        required: true,
+      },
+    ],
+    roles: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "buissnessrole",
+        required: true,
+      },
+    ],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "userprofile",
@@ -52,4 +70,4 @@ const UserSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("buissness", UserSchema);
+module.exports = mongoose.model("buissness", buissnessSchema);
