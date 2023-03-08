@@ -30,6 +30,21 @@ async function firebaseAuth(req, res, next) {
   next();
 }
 
+async function verifyUserAuth(req, res, next){
+  const { mongodbUser,firebaseUser } = req.user;
+
+  if (mongodbUser){
+    next()
+  } else{
+    admin.auth().deleteUser(firebaseUser.uid)
+    return res
+      .status(401)
+      .json({ message: "Unauthorized, Firebase User Deleted", status: "User not found in Mongodb" });
+  }
+
+}
+
 module.exports = {
   firebaseAuth,
+  verifyUserAuth
 };

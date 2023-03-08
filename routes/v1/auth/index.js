@@ -16,12 +16,12 @@ router.post("/create", async (req, res) => {
     userType: "63ca92f13ec1a3d50bdeb75b",
   });
   let user = await us.save();
-  res.status(200).json({ message: "User created successfully", user });
+  res.status(200).json({ message: "User created successfully", data: user });
 });
 
-router.get("/get", firebaseAuth, async (req, res) => {
+router.get("/get", async (req, res) => {
   let { mongodbUser } = req.user;
-  res.status(200).json({ message: "User fetched", user: mongodbUser });
+  res.status(200).json({ message: "User fetched", data: mongodbUser });
 });
 
 module.exports = router;

@@ -8,7 +8,7 @@ const ExpenseCreate = async (req, res) => {
   const { buissnessid } = req;
   const { mongodbUser } = req.user;
   const { name, description, amount, type, expenseOn } = req.body;
-  new expense({
+  let data = new expense({
     buissness: buissnessid,
     expenseName: name,
     expenseDescription: description,
@@ -18,22 +18,24 @@ const ExpenseCreate = async (req, res) => {
       count: amount,
     },
     createdBy: mongodbUser._id,
-  }).save((err, doc) => {
-    if (err) {
-      res.status(500).json({ message: "Error creating inventory" });
-    } else {
+  });
+  data
+    .save()
+    .then((doc) => {
       res
         .status(200)
         .json({ message: "Expense created successfully", data: doc });
-    }
-  });
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Error creating inventory" });
+    });
 };
 
 const InventoryCreate = async (req, res) => {
   const { buissnessid } = req;
   const { mongodbUser } = req.user;
   const { name, description, quantity, sellingPrice, buyingPrice } = req.body;
-  new inventory({
+  let data = new inventory({
     buissness: buissnessid,
     inventoryName: name,
     inventoryDescription: description,
@@ -43,15 +45,17 @@ const InventoryCreate = async (req, res) => {
     },
     inventoryQuantity: quantity,
     createdBy: mongodbUser._id,
-  }).save((err, doc) => {
-    if (err) {
-      res.status(500).json({ message: "Error creating inventory" });
-    } else {
+  });
+  data
+    .save()
+    .then((doc) => {
       res
         .status(200)
         .json({ message: "Inventory created successfully", data: doc });
-    }
-  });
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Error creating inventory" });
+    });
 };
 
 const BuissnessCreate = async (req, res) => {

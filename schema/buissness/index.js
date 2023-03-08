@@ -62,6 +62,7 @@ const buissnessSchema = mongoose.Schema(
         required: true,
       },
     ],
+    
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "userprofile",
