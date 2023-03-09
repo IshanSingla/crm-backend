@@ -46,8 +46,7 @@ const UserSchema = mongoose.Schema(
       default: Date.now(),
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "userprofile",
+      type: String,
       required: true,
     },
   },

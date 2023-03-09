@@ -5,9 +5,9 @@ const userProfile = require("../schema/user/userProfile");
 const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
 
 const AllBuissnessData = async (req, res) => {
-  const { mongodbUser } = req.user;
+  // const { mongodbUser } = req.user;
   buissness
-    .find({ users: { $elemMatch: { $eq: mongodbUser._id } } })
+    .find({ users: { $elemMatch: { $eq: req.user.uid } } })
     .then((doc) => {
       if (doc) {
         res.status(200).json({ message: "Buissness fetched", buissness: doc });

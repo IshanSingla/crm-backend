@@ -4,25 +4,6 @@ const buissness = require("../schema/buissness");
 const userProfile = require("../schema/user/userProfile");
 const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
 
-const UserUpdate = async (req, res) => {
-  const { mongodbUser } = req.user;
-  const { name, email, phoneNumber } = req.body;
-  userProfile.updateOne(
-    { _id: mongodbUser._id },
-    {
-      name,
-      email,
-      phoneNumber,
-    },
-    (err, doc) => {
-      if (err) {
-        res.status(500).json({ message: "Error updating user" });
-      } else {
-        res.status(200).json({ message: "User updated successfully" });
-      }
-    }
-  );
-};
 
 const BuissnessUpdate = async (req, res) => {
   const { buissnessid } = req;
@@ -95,7 +76,6 @@ const InventoryUpdate = async (req, res) => {
 };
 
 module.exports = {
-  UserUpdate,
   BuissnessUpdate,
   ExpenseUpdate,
   InventoryUpdate,

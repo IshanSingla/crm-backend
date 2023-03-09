@@ -41,8 +41,7 @@ const inventoryTransactionSchema = mongoose.Schema(
       required: true,
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "userprofile",
+      type: String,
       required: true,
     },
   },

@@ -1,27 +1,30 @@
 const router = require("express").Router();
-const { firebaseAuth } = require("../../../middleware/firebaseAuth");
-const userProfile = require("../../../schema/user/userProfile");
+const { admin } = require("../../../configs/firebase");
 
 router.post("/create", async (req, res) => {
-  const { email, name, userGender, phoneNumber } = req.body;
-  const { firebaseUser } = req.user;
-  let us = new userProfile({
-    email,
-    name,
-    userGender: userGender,
-    phoneNumber: {
-      number: phoneNumber,
-    },
-    uid: firebaseUser.uid,
-    userType: "63ca92f13ec1a3d50bdeb75b",
+  const { userGender, phoneNumber } = req.body;
+  let uid = req.user.uid;
+  admin.auth().updateUser(uid, {
+    phoneNumber: phoneNumber,
   });
-  let user = await us.save();
-  res.status(200).json({ message: "User created successfully", data: user });
+  admin
+    .auth()
+    .setCustomUserClaims(uid, {
+      type: "ghvjkjilukhgvhhb",
+      userGender: userGender,
+    })
+    .then((newUser) => {
+      res
+        .status(200)
+        .send({ message: "User created successfully", data: newUser });
+    })
+    .catch((err) => {
+      res.status(404).send({ message: err.message });
+    });
 });
 
-router.get("/get", async (req, res) => {
-  let { mongodbUser } = req.user;
-  res.status(200).json({ message: "User fetched", data: mongodbUser });
+router.get("/check", async (req, res) => {
+  res.status(200).json({ message: "User fetched", data: req.user });
 });
 
 module.exports = router;

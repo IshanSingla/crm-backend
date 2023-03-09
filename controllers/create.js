@@ -6,7 +6,7 @@ const inventoryTransaction = require("../schema/buissness/inventory/inventorytra
 
 const ExpenseCreate = async (req, res) => {
   const { buissnessid } = req;
-  const { mongodbUser } = req.user;
+  // const { mongodbUser } = req.user;
   const { name, description, amount, type, expenseOn } = req.body;
   let data = new expense({
     buissness: buissnessid,
@@ -17,7 +17,7 @@ const ExpenseCreate = async (req, res) => {
     expenseAmount: {
       count: amount,
     },
-    createdBy: mongodbUser._id,
+    createdBy: req.user.uid,
   });
   data
     .save()
@@ -33,7 +33,7 @@ const ExpenseCreate = async (req, res) => {
 
 const InventoryCreate = async (req, res) => {
   const { buissnessid } = req;
-  const { mongodbUser } = req.user;
+  // const { mongodbUser } = req.user;
   const { name, description, quantity, sellingPrice, buyingPrice } = req.body;
   let data = new inventory({
     buissness: buissnessid,
@@ -44,7 +44,7 @@ const InventoryCreate = async (req, res) => {
       buyingPrice: buyingPrice,
     },
     inventoryQuantity: quantity,
-    createdBy: mongodbUser._id,
+    createdBy: req.user.uid,
   });
   data
     .save()
@@ -59,13 +59,13 @@ const InventoryCreate = async (req, res) => {
 };
 
 const BuissnessCreate = async (req, res) => {
-  const { mongodbUser } = req.user;
+  // const { mongodbUser } = req.user;
   const { buissnessName } = req.body;
   let data = new buissness({
     buissnessName,
-    createdBy: mongodbUser._id,
-    users: [mongodbUser._id],
-    roles: [mongodbUser.userType],
+    createdBy: req.user.uid,
+    users: [req.user.uid],
+    roles: ["63ca92f13ec1a3d50bdeb75b"],
   });
   data
     .save()

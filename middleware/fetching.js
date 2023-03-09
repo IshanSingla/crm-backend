@@ -5,7 +5,7 @@ const userProfile = require("../schema/user/userProfile");
 const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
 
 const verifyBuissness = (req, res, next) => {
-  const { mongodbUser } = req.user;
+  // const { mongodbUser } = req.user;
   if (!req.headers || !req.headers["buissnessid"]) {
     return res.status(404).json({ message: "Buissness Not Defined" });
   }
@@ -16,7 +16,7 @@ const verifyBuissness = (req, res, next) => {
   buissness
     .find({
       _id: buissnessid,
-      users: { $elemMatch: { $eq: mongodbUser._id } },
+      users: { $elemMatch: { $eq: req.user.uid } },
     })
     .then((doc) => {
       if (doc) {
@@ -28,7 +28,6 @@ const verifyBuissness = (req, res, next) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       res
         .status(404)
         .json({ message: "Error fetching buissness", err: err.message });

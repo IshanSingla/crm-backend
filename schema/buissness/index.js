@@ -50,8 +50,7 @@ const buissnessSchema = mongoose.Schema(
     },
     users: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "userprofile",
+        type: String,
         required: true,
       },
     ],
@@ -64,8 +63,7 @@ const buissnessSchema = mongoose.Schema(
     ],
     
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "userprofile",
+      type: String,
       required: true,
     },
   },

@@ -7,7 +7,6 @@ const inventoryTransaction = require("../schema/buissness/inventory/inventorytra
 const async = require("async");
 
 const BuissnessDelete = async (req, res) => {
-  console.log("BuissnessDelete");
   const { buissnessid } = req;
   // under testing
   async.parallel(
