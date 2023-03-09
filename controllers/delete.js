@@ -1,6 +1,7 @@
 const expense = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
+const cart = require("../schema/buissness/cart");
 const userProfile = require("../schema/user/userProfile");
 const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
 
@@ -75,8 +76,29 @@ const InventoryDelete = (req, res) => {
   });
 };
 
+const CartDelete = async (req, res) => {
+  cart
+    .deleteOne({ _id: req.params.id })
+    .then((response) => {
+      if(response.deletedCount == 0){
+        return res.status(500).json({
+          message: "No such cart found"
+        })
+      }
+      res.status(200).json({
+        message: "Cart deleted"
+      })
+    })
+    .catch(() => {
+      res.status(500).json({
+        message: "Error deleteing cart"
+      })
+    })
+}
+
 module.exports = {
   ExpenseDelete,
   InventoryDelete,
   BuissnessDelete,
+  CartDelete
 };

@@ -75,8 +75,40 @@ const InventoryUpdate = async (req, res) => {
   );
 };
 
+const CartUpdate = async (req, res) => {
+  try{
+    let { createdBy } = req.buissness;
+    let result = await cart.updateOne({ createdBy: createdBy, business: req.buissnessid, "inventory.inventory_id": req.body.inventoryId }, {
+      $set: {
+        "inventory.$.quantity": req.body.quantity
+      }
+    })
+    if (result.matchedCount == 0) {
+      let details = await cart.updateOne({ createdBy: createdBy, business: req.buissnessid }, {
+        $addToSet: {
+          inventory: {
+            inventory_id: req.body.inventoryId,
+            quantity: req.body.quantity
+          }
+        }
+      });
+  
+      if (details.matchedCount === 0) {
+        return res.status(500).json({
+          message: "Some error occured"
+        })
+      }
+    }
+    
+    res.status(200).json({ message: "Item Modified" });
+  }catch(err){
+    throw(err);
+  }
+}
+
 module.exports = {
   BuissnessUpdate,
   ExpenseUpdate,
   InventoryUpdate,
+  CartUpdate
 };

@@ -2,6 +2,7 @@ const expense = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
 const userProfile = require("../schema/user/userProfile");
+const cart = require("../schema/buissness/cart");
 const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
 
 const ExpenseCreate = async (req, res) => {
@@ -79,8 +80,28 @@ const BuissnessCreate = async (req, res) => {
     });
 };
 
+const CartCreate = async (req, res) => {
+  let { createdBy } = req.buissness;
+  let data = new cart({
+    business: req.buissnessid,
+    inventory: [],
+    createdBy: createdBy
+  });
+
+  data
+    .save()
+    .then((doc) => {
+      res.json({ message: "Cart created", data: doc });
+    }).catch((err) => {
+      res
+        .status(500)
+        .json({ message: "Error creating buissness", err: err.message });
+    })
+}
+
 module.exports = {
   ExpenseCreate,
   InventoryCreate,
   BuissnessCreate,
+  CartCreate
 };
