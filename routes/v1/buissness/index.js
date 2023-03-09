@@ -18,5 +18,6 @@ router.post("/update", verifyBuissness, BuissnessUpdate);
 router.post("/adduser", verifyBuissness, AddBuissnessUser);
 router.use("/expenses", verifyBuissness, require("./expenses"));
 router.use("/inventory", verifyBuissness, require("./inventory"));
+router.use("/cart", require("./cart"));
 
 module.exports = router;

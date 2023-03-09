@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const cart = require("./cart");
 const buissnessSchema = mongoose.Schema(
   {
     buissnessName: {
@@ -69,4 +70,15 @@ const buissnessSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+buissnessSchema.post("save", async (err, doc) => {
+  let data = new cart({
+    business: doc._id,
+    inventory: [],
+    createdBy: doc.createdBy
+  });
+
+  await data.save();
+})
+
 module.exports = mongoose.model("buissness", buissnessSchema);
