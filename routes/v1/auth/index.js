@@ -2,9 +2,10 @@ const router = require("express").Router();
 const { admin } = require("../../../configs/firebase");
 
 router.post("/create", async (req, res) => {
+  try{
   const { userGender, phoneNumber } = req.body;
   let uid = req.user.uid;
-  admin.auth().updateUser(uid, {
+  await admin.auth().updateUser(uid, {
     phoneNumber: phoneNumber,
   });
   admin
@@ -21,6 +22,10 @@ router.post("/create", async (req, res) => {
     .catch((err) => {
       res.status(404).send({ message: err.message });
     });
+  }catch(err){
+    res.status(404).send({ message: err.message });
+  }
+  
 });
 
 router.get("/check", async (req, res) => {

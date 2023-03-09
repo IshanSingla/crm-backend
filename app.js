@@ -3,7 +3,7 @@ require("dotenv").config();
 
 // Importing the required modules
 const express = require("express");
-// const csurf = require("csurf");
+const csurf = require("csurf");
 const cors = require("cors");
 const app = express();
 
@@ -15,17 +15,13 @@ const { getIPAddress } = require("./utils/getIPAddress");
 require("./configs/mongoose")();
 
 app
-  // .disable("x-powered-by")
+  .disable("x-powered-by")
   .use(express.json())
-  // .use(express.urlencoded({ extended: true }))
+  .use(express.urlencoded({ extended: true }))
   .use(cors())
   // .use(csurf())
-  // .use(function (req, res, next) {
-  //   res.locals.csrftoken = req.session._csrf;
-  //   next();
-  // })
 
-  .use(require("./configs/morgan"))
+  // .use(require("./configs/morgan"))
   .use("/", require("./routes"))
   .use(errorHandler);
 
