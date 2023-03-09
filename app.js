@@ -17,11 +17,11 @@ require("./configs/mongoose")();
 app
   .disable("x-powered-by")
   .use(express.json())
-  // .use(express.urlencoded({ extended: true }))
+  .use(express.urlencoded({ extended: true }))
   .use(cors())
   // .use(csurf())
 
-  .use(require("./configs/morgan"))
+  // .use(require("./configs/morgan"))
   .use("/", require("./routes"))
   .use(errorHandler);
 
