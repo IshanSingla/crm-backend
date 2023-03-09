@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const { BuissnessCreate } = require("../../../controllers/create");
-const { AllBuissnessData } = require("../../../controllers/getdata");
+const {
+  AllBuissnessData,
+  BuissnessData,
+} = require("../../../controllers/getdata");
 const { verifyBuissness } = require("../../../middleware/fetching");
-const { BuissnessData } = require("../../../controllers/getdata");
 const { BuissnessDelete } = require("../../../controllers/delete");
 const { BuissnessUpdate } = require("../../../controllers/update");
 const { AddBuissnessUser } = require("../../../controllers/AddAccess");

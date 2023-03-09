@@ -21,7 +21,7 @@ const UserSchema = mongoose.Schema(
         type: String,
       },
     },
-    buissness: {
+    dataBuissness: {
       buissnessName: {
         type: String,
         required: true,

@@ -13,19 +13,34 @@ const BuissnessDelete = async (req, res) => {
   async.parallel(
     {
       task1: function (callback) {
-        buissness.findByIdAndDelete(buissnessid).then((doc) => {
-          callback(null, 1);
-        });
+        buissness
+          .findByIdAndDelete(buissnessid)
+          .then((doc) => {
+            callback(null, 1);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       },
       task2: function (callback) {
-        expense.deleteMany({ buissness: buissnessid }).then((doc) => {
-          callback(null, 2);
-        });
+        expense
+          .deleteMany({ buissness: buissnessid })
+          .then((doc) => {
+            callback(null, 2);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       },
       task3: function (callback) {
-        inventory.deleteMany({ buissness: buissnessid }).then((doc) => {
-          callback(null, 3);
-        });
+        inventory
+          .deleteMany({ buissness: buissnessid })
+          .then((doc) => {
+            callback(null, 3);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       },
     },
     function (err, results) {
@@ -36,7 +51,6 @@ const BuissnessDelete = async (req, res) => {
       }
     }
   );
-
 };
 
 const ExpenseDelete = (req, res) => {
