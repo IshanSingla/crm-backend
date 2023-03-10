@@ -1,6 +1,7 @@
 const expense = require("../schema/buissness/expenses");
 const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
+const cart = require("../schema/buissness/cart");
 const userProfile = require("../schema/user/userProfile");
 const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
 
@@ -116,6 +117,20 @@ const InventoryData = async (req, res) => {
     .json({ message: "Inventory fetched", inventory: req.inventory });
 };
 
+const CartData = async (req, res) => {
+  let { uid, buissnessid } = req.user;
+  cart
+    .findOne({ createdBy: uid, business: buissnessid })
+    .then((data) => {
+      res
+        .status(200)
+        .json({ message: "Cart fetched", cart: data });
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Error fetching cart" });
+    })
+}
+
 module.exports = {
   AllExpenseData,
   ExpenseData,
@@ -123,4 +138,5 @@ module.exports = {
   InventoryData,
   AllBuissnessData,
   BuissnessData,
+  CartData
 };

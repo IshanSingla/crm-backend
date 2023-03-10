@@ -21,7 +21,8 @@ const CartSchema = mongoose.Schema({
     ],
     createdBy: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }
 }, {
     timestamps: true

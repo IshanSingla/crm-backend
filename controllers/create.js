@@ -81,7 +81,7 @@ const BuissnessCreate = async (req, res) => {
 };
 
 const CartCreate = async (req, res) => {
-  let { createdBy } = req.buissness;
+  let { createdBy } = req.buissness[0];
   let data = new cart({
     business: req.buissnessid,
     inventory: [],
@@ -95,7 +95,7 @@ const CartCreate = async (req, res) => {
     }).catch((err) => {
       res
         .status(500)
-        .json({ message: "Error creating buissness", err: err.message });
+        .json({ message: "Error creating cart", err: err.message });
     })
 }
 

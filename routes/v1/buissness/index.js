@@ -4,7 +4,7 @@ const {
   AllBuissnessData,
   BuissnessData,
 } = require("../../../controllers/getdata");
-const { verifyBuissness } = require("../../../middleware/fetching");
+const { verifyBuissness, verifyCart } = require("../../../middleware/fetching");
 const { BuissnessDelete } = require("../../../controllers/delete");
 const { BuissnessUpdate } = require("../../../controllers/update");
 const { AddBuissnessUser } = require("../../../controllers/AddAccess");
@@ -18,6 +18,6 @@ router.post("/update", verifyBuissness, BuissnessUpdate);
 router.post("/adduser", verifyBuissness, AddBuissnessUser);
 router.use("/expenses", verifyBuissness, require("./expenses"));
 router.use("/inventory", verifyBuissness, require("./inventory"));
-router.use("/cart", require("./cart"));
+router.use("/cart", verifyCart, require("./cart"));
 
 module.exports = router;

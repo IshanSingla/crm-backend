@@ -3,6 +3,7 @@ const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
 const userProfile = require("../schema/user/userProfile");
 const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
+const cart = require("../schema/buissness/cart");
 
 const verifyBuissness = (req, res, next) => {
   // const { mongodbUser } = req.user;
@@ -72,8 +73,43 @@ const verifyExpense = (req, res, next) => {
   );
 };
 
+const verifyCart = async (req, res, next) => {
+  if (!req.headers || !req.headers["buissnessid"]) {
+    return res.status(404).json({ message: "Buissness Not Defined" });
+  }
+  const buissnessid = req.headers["buissnessid"];
+
+  if (!buissnessid) {
+    return res.status(404).json({ message: "Buissness Not Defined" });
+  }
+
+  let data = await cart.findOne({ createdBy: req.user.uid, business: buissnessid });
+
+  if(!data){
+    let newData = new cart({
+      business: buissnessid,
+      inventory: [],
+      createdBy: req.user.uid
+    });
+
+    try{
+      await newData.save();
+    } catch(err){
+      return res.status(500).json({message: err.message});
+    }
+  }
+
+  req.user = {
+    buissnessid,
+    uid: req.user.uid
+  }
+
+  next();
+}
+
 module.exports = {
   verifyBuissness,
   verifyInventry,
   verifyExpense,
+  verifyCart
 };
