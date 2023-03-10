@@ -76,9 +76,10 @@ const InventoryUpdate = async (req, res) => {
 };
 
 const CartUpdate = async (req, res) => {
+  const { type, inventoryId } = req.query;
   const { buissnessid, cart, user } = req;
-  const { inventoryId } = req.body;
-  let type = req.params.type;
+  // const { inventoryId } = req.body;
+  // let type = req.params.type;
   let inventorydata = {};
   try {
     inventorydata = await inventorys.findOne({
@@ -93,15 +94,15 @@ const CartUpdate = async (req, res) => {
   }
   const { _id, inventoryName, inventoryCost } = inventorydata;
   let query = {};
-  if (type == "push") {
-    let data = cart.inventory.filter(
-      (item) => item.inventory_id == inventoryId
-    );
+  let data = cart.inventory.filter((item) => {
+    return String(item.inventory_id) === String(inventorydata._id);
+  });
+  if (type == "PUSH") {
     if (data.length > 0) {
       return res.status(400).json({ message: "Item already in cart" });
     } else {
       query = {
-        $addToSet: {
+        $push: {
           inventory: {
             inventory_id: _id,
             quantity: 1,
@@ -111,29 +112,49 @@ const CartUpdate = async (req, res) => {
         },
       };
     }
-  } else if (type == "add") {
-    query = {
-      $inc: {
-        "inventory.$.quantity": 1,
-      },
-    };
-  } else if (type == "subtract") {
-    query = {
-      $inc: {
-        "inventory.$.quantity": -1,
-      },
-    };
-  } else if (type == "delete") {
-    query = {
-      $pull: {
-        inventory: {
-          inventory_id: _id,
+  } else if (type == "INCRIMENT") {
+    if (data.length == 0) {
+      return res.status(400).json({ message: "Item not in the Cart" });
+    } else if (inventorydata.inventoryQuantity > data[0].quantity) {
+      query = {
+        $inc: {
+          "inventory.$.quantity": 1,
         },
-      },
-    };
+      };
+    } else {
+      return res.status(400).json({ message: "Max Quantity Reached" });
+    }
+  } else if (type == "DECREMENT") {
+    if (data.length == 0) {
+      return res.status(400).json({ message: "Item not in the Cart" });
+    }
+    if (data[0].quantity == 1) {
+      query = {
+        $pull: {
+          inventory: {
+            inventory_id: _id,
+          },
+        },
+      };
+    } else {
+      query = {
+        $inc: {
+          "inventory.$.quantity": -1,
+        },
+      };
+    }
+  } else {
+    return res.status(400).json({ message: "Invalid Query" });
   }
   carts
-    .updateOne({ createdBy: user.uid, business: buissnessid }, query)
+    .updateOne(
+      {
+        createdBy: user.uid,
+        business: buissnessid,
+        "inventory.inventory_id": inventoryId,
+      },
+      { ...query }
+    )
     .then((doc) => {
       return res
         .status(200)

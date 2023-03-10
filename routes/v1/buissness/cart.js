@@ -4,6 +4,6 @@ const { CartUpdate } = require("../../../controllers/update");
 router.get("/", (req, res) => {
   res.json({ message: "Cart fetched", data: req.cart });
 });
-router.post("/update/:type", CartUpdate);
+router.put("/update", CartUpdate);
 
 module.exports = router;
