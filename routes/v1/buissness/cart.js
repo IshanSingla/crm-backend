@@ -5,7 +5,7 @@ const { CartData } = require("../../../controllers/getdata");
 const { verifyCart } = require("../../../middleware/fetching");
 
 router.get("/delete/:id", CartDelete);
-router.post("/update", CartUpdate);
+router.post("/update/:type", CartUpdate);
 router.get("/", CartData);
 
 module.exports = router;

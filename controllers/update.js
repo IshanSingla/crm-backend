@@ -77,36 +77,61 @@ const InventoryUpdate = async (req, res) => {
 };
 
 const CartUpdate = async (req, res) => {
-  try{
+  try {
     let { uid, buissnessid } = req.user;
-    let result = await cart.updateOne({ createdBy: uid, business: buissnessid, "inventory.inventory_id": req.body.inventoryId }, {
-      $set: {
-        "inventory.$.quantity": req.body.quantity
+    let type = req.params.type;
+
+    if (type == "push") {
+      let details = await cart.findOne({ createdBy: uid, business: buissnessid, "inventory.inventory_id": req.body.inventoryId });
+
+      if (details) {
+        return res.status(200).json({
+          message: "Already in cart"
+        });
       }
-    })
-    // console.log(result);
-    if (result.nModified == 0) {
-      let details = await cart.updateOne({ createdBy: uid, business: buissnessid }, {
+
+      await cart.updateOne({ createdBy: uid, business: buissnessid }, {
         $addToSet: {
           inventory: {
             inventory_id: req.body.inventoryId,
-            quantity: req.body.quantity
+            quantity: 1,
+            inventoryName: req.body.inventoryName,
+            inventoryCost: {
+              sellingPrice: req.body.sellingPrice,
+              buyingPrice: req.body.buyingPrice
+            }
           }
         }
       });
-
-      // console.log(details);
-  
-      if (details.matchedCount === 0) {
-        return res.status(500).json({
-          message: "Some error occured"
-        })
-      }
+    } else if (type == "add") {
+      await cart.updateOne({ createdBy: uid, business: buissnessid, "inventory.inventory_id": req.body.inventoryId }, {
+        $inc: {
+          "inventory.$.quantity": 1,
+        }
+      })
+    } else if (type == "subtract") {
+      await cart.updateOne({ createdBy: uid, business: buissnessid, "inventory.inventory_id": req.body.inventoryId }, {
+        $inc: {
+          "inventory.$.quantity": -1,
+        }
+      })
+    } else if (type == "remove") {
+      await cart.updateOne({ createdBy: uid, business: buissnessid, "inventory.inventory_id": req.body.inventoryId }, {
+        $pull: {
+          inventory: {
+            inventory_id: req.body.inventoryId
+          }
+        }
+      })
+    } else {
+      return res.status(500).json({
+        message: "wrong type value"
+      })
     }
-    
-    res.status(200).json({ message: "Item Modified" });
-  }catch(err){
-    throw(err);
+
+    res.status(200).json({ message: "Action Done" });
+  } catch (err) {
+    throw (err);
   }
 }
 

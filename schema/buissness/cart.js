@@ -16,6 +16,24 @@ const CartSchema = mongoose.Schema({
             quantity: {
                 type: Number,
                 required: true
+            },
+            inventoryName: {
+                type: String,
+                required: true
+            },
+            inventoryCost: {
+                sellingPrice: {
+                    type: Number,
+                    default: 0
+                },
+                buyingPrice: {
+                    type: Number,
+                    default: 0
+                },
+                currency: {
+                    type: String,
+                    default: "INR"
+                },
             }
         }
     ],
