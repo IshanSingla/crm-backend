@@ -93,6 +93,7 @@ const CartUpdate = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
   const { _id, inventoryName, inventoryCost } = inventorydata;
+  let findquery = {};
   let query = {};
   let data = cart.inventory.filter((item) => {
     return String(item.inventory_id) === String(inventorydata._id);
@@ -101,8 +102,12 @@ const CartUpdate = async (req, res) => {
     if (data.length > 0) {
       return res.status(400).json({ message: "Item already in cart" });
     } else {
+      findquery = {
+        createdBy: user.uid,
+        business: buissnessid,
+      };
       query = {
-        $push: {
+        $addToSet: {
           inventory: {
             inventory_id: _id,
             quantity: 1,
@@ -116,6 +121,11 @@ const CartUpdate = async (req, res) => {
     if (data.length == 0) {
       return res.status(400).json({ message: "Item not in the Cart" });
     } else if (inventorydata.inventoryQuantity > data[0].quantity) {
+      findquery = {
+        createdBy: user.uid,
+        business: buissnessid,
+        "inventory.inventory_id": inventoryId,
+      };
       query = {
         $inc: {
           "inventory.$.quantity": 1,
@@ -125,6 +135,11 @@ const CartUpdate = async (req, res) => {
       return res.status(400).json({ message: "Max Quantity Reached" });
     }
   } else if (type == "DECREMENT") {
+    findquery = {
+      createdBy: user.uid,
+      business: buissnessid,
+      "inventory.inventory_id": inventoryId,
+    };
     if (data.length == 0) {
       return res.status(400).json({ message: "Item not in the Cart" });
     }
@@ -147,18 +162,17 @@ const CartUpdate = async (req, res) => {
     return res.status(400).json({ message: "Invalid Query" });
   }
   carts
-    .updateOne(
-      {
-        createdBy: user.uid,
-        business: buissnessid,
-        "inventory.inventory_id": inventoryId,
-      },
-      { ...query }
-    )
+    .updateOne(findquery, query)
     .then((doc) => {
-      return res
-        .status(200)
-        .json({ message: `Item ${type} to cart SucessFully` });
+      if (doc.nModified != 0) {
+        return res
+          .status(200)
+          .json({ message: `Item ${type} to cart SucessFully` });
+      } else {
+        return res
+          .status(400)
+          .json({ message: `Item ${type} to cart UnSucessFully` });
+      }
     })
     .catch((err) => {
       return res.status(500).json({ message: err.message });
