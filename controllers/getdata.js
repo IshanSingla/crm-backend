@@ -23,14 +23,7 @@ const AllBuissnessData = async (req, res) => {
 };
 
 const BuissnessData = async (req, res) => {
-  const { buissnessid } = req;
-  buissness.findById(buissnessid, (err, doc) => {
-    if (err) {
-      res.status(404).json({ message: "Buissness not found" });
-    } else {
-      res.status(200).json({ message: "Buissness fetched", buissness: doc });
-    }
-  });
+  res.status(200).json({ message: "Buissness fetched", buissness: req.buissness });
 };
 
 const AllExpenseData = async (req, res) => {

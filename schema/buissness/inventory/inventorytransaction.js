@@ -3,24 +3,21 @@ const inventoryTransactionSchema = mongoose.Schema(
   {
     inventory: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "inventory",
-        required: true,
+        item: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "inventory",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        amount: {
+          type: Number,
+          required: true,
+        },
       },
     ],
-    inventoryTransactionAmmount: [
-      {
-        type: Number,
-        required: true,
-      },
-    ],
-    inventoryTransactionQuantity: [
-      {
-        type: Number,
-        required: true,
-      },
-    ],
-
     inventoryTransactionTime: {
       type: Date,
       required: true,

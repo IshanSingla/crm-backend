@@ -14,17 +14,17 @@ const verifyBuissness = (req, res, next) => {
     return res.status(404).json({ message: "Buissness Not Defined" });
   }
   buissness
-    .find({
+    .findOne({
       _id: buissnessid,
       users: { $elemMatch: { user: req.user.uid } },
     })
     .then((doc) => {
       if (doc) {
         req.buissness = doc;
-        req.buissnessid = buissnessid;
+        req.buissnessid = doc._id;
         next();
       } else {
-        res.status(404).json({ message: "Buissness not found" });
+        return res.status(404).json({ message: "Buissness not found" });
       }
     })
     .catch((err) => {
