@@ -84,7 +84,7 @@ const CartUpdate = async (req, res) => {
         "inventory.$.quantity": req.body.quantity
       }
     })
-    console.log(result);
+    // console.log(result);
     if (result.nModified == 0) {
       let details = await cart.updateOne({ createdBy: uid, business: buissnessid }, {
         $addToSet: {
@@ -95,7 +95,7 @@ const CartUpdate = async (req, res) => {
         }
       });
 
-      console.log(details);
+      // console.log(details);
   
       if (details.matchedCount === 0) {
         return res.status(500).json({
