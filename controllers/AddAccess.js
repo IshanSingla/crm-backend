@@ -3,26 +3,24 @@ const inventory = require("../schema/buissness/inventory");
 const buissness = require("../schema/buissness");
 const userProfile = require("../schema/user/userProfile");
 const inventoryTransaction = require("../schema/buissness/inventory/inventorytransaction");
+const { admin } = require("../configs/firebase");
 
 const AddBuissnessUser = async (req, res) => {
   const { buissnessid } = req;
-  const { email } = req.body;
-  userProfile.findOne({ email: email }, (err, user) => {
-    if (err) {
-      res.status(500).json({ message: "Error finding user" });
-    } else {
-      if (user) {
+  const { email, type} = req.body;
+  admin
+    .auth()
+    .getUserByEmail(email)
+    .then((userRecord) => {
+      if (userRecord) {
         buissness.findByIdAndUpdate(
           buissnessid,
           {
             $push: {
               users: {
-                $each: [user._id],
-                $position: 0,
-              },
-              roles: {
-                $each: [user.userType],
-                $position: 0,
+                user: userRecord.uid,
+                email: userRecord.email,
+                roleName: type,
               },
             },
           },
@@ -37,8 +35,10 @@ const AddBuissnessUser = async (req, res) => {
       } else {
         res.status(404).json({ message: "User not found" });
       }
-    }
-  });
+    })
+    .catch((err) => {
+      res.status(404).json({ message: "User not found" });
+    });
 };
 
 module.exports = {
