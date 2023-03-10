@@ -50,18 +50,29 @@ const buissnessSchema = mongoose.Schema(
     },
     users: [
       {
-        type: String,
-        required: true,
+        user: {
+          type: String,
+          required: true,
+          
+        },
+        role: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "role",
+          default: "63ca92f13ec1a3d50bdeb75b",
+        },
+        email: {
+          type: String,
+          required: true,
+        },
+        roleName: {
+          type: String,
+          required: true,
+          default: "Owner",
+        },
       },
     ],
-    roles: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "buissnessrole",
-        required: true,
-      },
-    ],
-    
+
     createdBy: {
       type: String,
       required: true,

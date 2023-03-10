@@ -47,7 +47,9 @@ const UserSchema = mongoose.Schema(
     },
     userType: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "usertype",
+      ref: "role",
+      required: true,
+      default: "63ca92f13ec1a3d50bdeb75b",
     },
   },
   { timestamps: true }

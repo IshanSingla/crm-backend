@@ -16,7 +16,7 @@ const verifyBuissness = (req, res, next) => {
   buissness
     .find({
       _id: buissnessid,
-      users: { $elemMatch: { $eq: req.user.uid } },
+      users: { $elemMatch: { user: req.user.uid } },
     })
     .then((doc) => {
       if (doc) {

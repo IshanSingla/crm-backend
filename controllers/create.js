@@ -64,8 +64,10 @@ const BuissnessCreate = async (req, res) => {
   let data = new buissness({
     buissnessName,
     createdBy: req.user.uid,
-    users: [req.user.uid],
-    roles: ["63ca92f13ec1a3d50bdeb75b"],
+    users: {
+      user: req.user.uid,
+      email: req.user.email,
+    },
   });
   data
     .save()
