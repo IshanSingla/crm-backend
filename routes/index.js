@@ -7,20 +7,17 @@ const router = require("express").Router();
 //   res.status(200).json({ message: "Welcome to the CRM" });
 // });
 router.get("/", function (req, res) {
-  res.json({ hearder: req.headers["user-agent"], ipAddress: req.ip });
-  // axios
-  //   .get("https://www.iplocate.io/api/lookup/" + ipAddress, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //       // Authorization: "Bearer " + process.env.IPLOCATE_API_KEY,
-  //     },
-  //   })
-  //   .then((response) => {
-  //     console.log(req.headers);
-  //     res.json({ ...response.data });
-  //   });
-  // res.json({ ip: ipAddress });
+  axios
+    .get("https://www.iplocate.io/api/lookup/" + req.ip, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        // Authorization: "Bearer " + process.env.IPLOCATE_API_KEY,
+      },
+    })
+    .then((response) => {
+      res.json({ hearder: req.headers["user-agent"], ...response.data });
+    });
 });
 
 router.use("/api/v1", firebaseAuth, require("./v1"));
