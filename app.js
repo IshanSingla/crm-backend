@@ -15,6 +15,7 @@ const { getIPAddress } = require("./utils/getIPAddress");
 require("./configs/mongoose")();
 
 app
+  .set("trust proxy", true)
   .disable("x-powered-by")
   .use(express.json())
   .use(express.urlencoded({ extended: true }))

@@ -7,8 +7,7 @@ const router = require("express").Router();
 //   res.status(200).json({ message: "Welcome to the CRM" });
 // });
 router.get("/", function (req, res) {
-  const ipAddress = req.socket.remoteAddress.replace("::ffff:", "");
-  res.json({ hearder: req.headers["user-agent"], ipAddress });
+  res.json({ hearder: req.headers["user-agent"], ipAddress: req.ip });
   // axios
   //   .get("https://www.iplocate.io/api/lookup/" + ipAddress, {
   //     headers: {
