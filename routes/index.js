@@ -1,4 +1,3 @@
-const { request } = require("express");
 const { firebaseAuth } = require("../middleware/firebaseAuth");
 const axios = require("axios");
 
@@ -21,6 +20,7 @@ router.get("/", function (req, res) {
 });
 
 router.use("/api/v1", firebaseAuth, require("./v1"));
+router.use("/data",require("./data"))
 
 router.use("*", (req, res) => {
   res.status(404).json({ message: "404 Error", route: req.originalUrl });
